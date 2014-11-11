@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Aphrodite.Front.Models;
+using Aphrodite.Business;
 
 namespace Aphrodite.Front.Controllers
 {

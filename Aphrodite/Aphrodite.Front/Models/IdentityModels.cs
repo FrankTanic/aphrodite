@@ -21,7 +21,7 @@ namespace Aphrodite.Front.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("AphroditeContext", throwIfV1Schema: false)
         {
         }
 

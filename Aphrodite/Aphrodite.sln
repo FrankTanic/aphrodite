@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aphrodite.Data", "Aphrodite.Data\Aphrodite.Data.csproj", "{4B969F4F-11E3-404E-97B1-093DDF9F4174}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aphrodite.WebApi", "Aphrodite.WebApi\Aphrodite.WebApi.csproj", "{A94FA87B-DB81-4DFE-9470-13C9D441C34C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aphrodite.Business", "Aphrodite.Business\Aphrodite.Business.csproj", "{08BCA3F7-B6DB-4261-84AF-C9B345ED413A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aphrodite.Front", "Aphrodite.Front\Aphrodite.Front.csproj", "{7B195269-3CB4-4704-B26A-0CCA9C06A570}"
@@ -28,10 +26,6 @@ Global
 		{4B969F4F-11E3-404E-97B1-093DDF9F4174}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B969F4F-11E3-404E-97B1-093DDF9F4174}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B969F4F-11E3-404E-97B1-093DDF9F4174}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A94FA87B-DB81-4DFE-9470-13C9D441C34C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A94FA87B-DB81-4DFE-9470-13C9D441C34C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A94FA87B-DB81-4DFE-9470-13C9D441C34C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A94FA87B-DB81-4DFE-9470-13C9D441C34C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{08BCA3F7-B6DB-4261-84AF-C9B345ED413A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08BCA3F7-B6DB-4261-84AF-C9B345ED413A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08BCA3F7-B6DB-4261-84AF-C9B345ED413A}.Release|Any CPU.ActiveCfg = Release|Any CPU
