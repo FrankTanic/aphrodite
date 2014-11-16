@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Aphrodite.Front.Models
@@ -65,6 +66,18 @@ namespace Aphrodite.Front.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Voornaam")]
+        public string Firstname { get; set; }
+
+        [Required]
+        [Display(Name = "Geslacht")]
+        public string Gender { get; set; }
+
+        [Required]
+        [Display(Name = "Leeftijd")]
+        public string BirthDay { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -79,6 +92,12 @@ namespace Aphrodite.Front.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public enum Gender
+    {
+        Male,
+        Female
     }
 
     public class ResetPasswordViewModel
