@@ -21,8 +21,8 @@
                 var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
                 var currentUser = manager.FindById(User.Identity.GetUserId());
                 int gender = Convert.ToInt32(currentUser.Gender);
-                String man = "man";
-                String Frank = "Woman";
+                String man = "Man";
+                String Frank = "Vrouw";
         <dt>Voornaam:</dt>
         <dd>@currentUser.Firstname</dd>
         <dt>E-mailadres:</dt>
@@ -52,7 +52,7 @@
             }
             ]
             [
-                @Html.ActionLink("Change your ")
+                @Html.ActionLink("Change your other Data", "ChangeData")
             ]
         </dd>
     </dl>
