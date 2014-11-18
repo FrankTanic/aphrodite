@@ -51,8 +51,12 @@ namespace Aphrodite.Front.Controllers
             var model = new IndexViewModel
             {
                 Email = UserManager.GetEmail(User.Identity.GetUserId()),
+                Gender = UserManager.
                 HasPassword = HasPassword(),
-
+                PhoneNumber = await UserManager.GetPhoneNumberAsync(User.Identity.GetUserId()),
+                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
+                Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId()),
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
             };
             return View(model);
         }
