@@ -149,7 +149,7 @@ namespace Aphrodite.Front.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { Firstname = model.Firstname, Gender = model.Gender, BirthDay = model.BirthDay, UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Gender = model.Gender, SexualPreference = model.SexualPreference, BirthDay = model.BirthDay };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -168,6 +168,21 @@ namespace Aphrodite.Front.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        public bool IsUniqueEmail(string email)
+        {
+            var emailaddress = UserManager.GetEmail(email);
+
+            if(emailaddress != email)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
         }
 
         //

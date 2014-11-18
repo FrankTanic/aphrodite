@@ -22,29 +22,49 @@
             @Html.AntiForgeryToken()
             <h4>Maak een nieuw FaceDate account aan.</h4>
             <hr />
-            @Html.ValidationSummary("", new { @class = "text-danger" })
+            @Html.ValidationSummary()
             <div class="form-horizontal">
                 <div class="form-group">
-                   @Html.TextBoxFor(m => m.Firstname, new { @class = "form-control", placeholder="Gebruikersnaam" })
+                   @Html.ValidationMessageFor(m => m.UserName)
+                   @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder="Gebruikersnaam" })
                 </div>
                 <div class="form-group">
+                    @Html.ValidationMessageFor(m => m.Email)
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "E-mailadres" })
                 </div>
                 <div class="form-group">
+                    @Html.ValidationMessageFor(m => m.Gender)
                     <div class="col-sm-12">
-                    <label for="gender">Geslacht</label>
+                        <label for="gender">Geslacht</label>
+                        </div>  
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(m => m.Gender, "0", new { @class = "form-control" }) Man
+                        </label>
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(m => m.Gender, "1", new { @class = "form-control" }) Vrouw
+                        </label>
+                    </div>
+                <div class="form-group">
+                    @Html.ValidationMessageFor(m => m.BirthDay)
+                    @Html.TextBoxFor(m => m.BirthDay, new { @class = "form-control", placeholder = "Verjaardag" })
+                </div>
+                    <div class="form-group">
+                        @Html.ValidationMessageFor(m => m.SexualPreference)
+                        <div class="col-sm-12">
+                            <label for="gender">Sexuele voorkeur</label>
                         </div>
-                    <label class="radio-inline">
-                        @Html.RadioButtonFor(m => m.Gender, "0", new { @class = "form0control" }) Man
-                    </label>
-                    <label class="radio-inline">
-                        @Html.RadioButtonFor(m => m.Gender, "1", new { @class = "form0control" }) Vrouw
-                    </label>
-                </div>
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(m => m.SexualPreference, "0", new { @class = "form-control" }) Hetero
+                        </label>
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(m => m.SexualPreference, "1", new { @class = "form-control" }) Gay
+                        </label>
+                        <label class="radio-inline">
+                            @Html.RadioButtonFor(m => m.SexualPreference, "2", new { @class = "form-control" }) Bi-seksueel
+                        </label>
+                    </div>
                 <div class="form-group">
-                    @Html.TextBoxFor(m => m.BirthDay, new { @class = "form-control", placeholder = "Geboortedatum DD-MM-YYYY" })
-                </div>
-                <div class="form-group">
+                    @Html.ValidationMessageFor(m => m.Password)
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Wachtwoord" })
                 </div>
                 <div class="form-group">

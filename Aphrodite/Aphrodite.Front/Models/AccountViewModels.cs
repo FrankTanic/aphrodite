@@ -65,19 +65,19 @@ namespace Aphrodite.Front.Models
 
     public class RegisterViewModel
     {
-        [Required]
-        [Display(Name = "Voornaam")]
-        public string Firstname { get; set; }
 
-        [Required]
-        [Display(Name = "Geslacht")]
-        public string Gender { get; set; }
+        [Required(ErrorMessage = "Vul je gebruikersnaam vergeten")]
+        [StringLength(255, ErrorMessage = "Je gebruikersnaam mag minimaal 2 tekens lang zijn en maximaal 255 tekens", MinimumLength = 2)]
+        [Display(Name = "Gebruikersnaam")]
+        public string UserName { get; set; }
 
-        [Required]
-        [Display(Name = "Leeftijd")]
+        public Gender Gender { get; set; }
+
         public string BirthDay { get; set; }
 
-        [Required]
+        public SexualPreference SexualPreference { get; set; }
+
+        [Required(ErrorMessage = "Vul je e-mailadres in")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -96,8 +96,15 @@ namespace Aphrodite.Front.Models
 
     public enum Gender
     {
-        Male,
-        Female
+        Male = 0,
+        Female = 1
+    }
+
+    public enum SexualPreference
+    {
+        straight = 0,
+        gay = 1,
+        bi = 2
     }
 
     public class ResetPasswordViewModel
