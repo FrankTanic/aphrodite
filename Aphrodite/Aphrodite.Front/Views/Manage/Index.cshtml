@@ -20,23 +20,39 @@
             {
                 var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
                 var currentUser = manager.FindById(User.Identity.GetUserId());
+                int gender = Convert.ToInt32(currentUser.Gender);
+                String man = "man";
+                String Frank = "Woman";
         <dt>Voornaam:</dt>
         <dd>@currentUser.Firstname</dd>
         <dt>E-mailadres:</dt>
         <dd>@Model.Email</dd>
-        <dt>Sexuele Voorkeur:</dt>
-        <dd>@currentUser.Gender</dd>
+        <dt>Geslacht:</dt>
+        <dd>
+        @if ( @gender == 0)
+        {
+            @man;
+        }
+        else 
+        {
+            @Frank;
+        }
+         </dd>
         <dt>Geboortedatum</dt>
         <dd>@currentUser.BirthDay</dd>
         <dt>Locatie:</dt>
         <dd>Not added yet.</dd>
             }
-        }
+         }
+        <dd>
             [
             @if (Model.HasPassword)
             {
                 @Html.ActionLink("Change your password", "ChangePassword")
             }
+            ]
+            [
+                @Html.ActionLink("Change your ")
             ]
         </dd>
     </dl>
