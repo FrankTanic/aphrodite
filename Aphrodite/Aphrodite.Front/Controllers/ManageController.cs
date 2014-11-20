@@ -7,12 +7,14 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Aphrodite.Front.Models;
+using System.Net;
 
 namespace Aphrodite.Front.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
+        private ManageContext db = new ManageContext();
         public ManageController()
         {
         }
@@ -59,6 +61,24 @@ namespace Aphrodite.Front.Controllers
             };
             return View(model);
         }
+
+
+        public ActionResult ChangeData()
+        {
+            string id = User.Identity.GetUserId();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            IndexViewModel IndexViewModel = db.IndexViewModel.Find(id);
+            if (IndexViewModel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(IndexViewModel);
+        }
+
 
         //
         // GET: /Manage/RemoveLogin
