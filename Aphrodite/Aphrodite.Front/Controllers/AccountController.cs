@@ -149,7 +149,7 @@ namespace Aphrodite.Front.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Gender = model.Gender, SexualPreference = model.SexualPreference, BirthDay = model.BirthDay };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Gender = model.Gender, SexualPreference = model.SexualPreference, BirthDay = model.BirthDay.ToString() };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
