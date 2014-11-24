@@ -8,80 +8,95 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - FaceDate</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
 <body>
     <div class="container">
-        <div class="row">
-        <h2>@ViewBag.Title.</h2>
-        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-        {
-            @Html.AntiForgeryToken()
-            <h4>Maak een nieuw FaceDate account aan.</h4>
-            <hr />
-            @Html.ValidationSummary()
-            <div class="form-horizontal">
-                <div class="form-group">
-                   @Html.ValidationMessageFor(m => m.UserName)
-                   @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder="Gebruikersnaam" })
-                </div>
-                <div class="form-group">
-                    @Html.ValidationMessageFor(m => m.Email)
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "E-mailadres" })
-                </div>
-                <div class="form-group">
-                    @Html.ValidationMessageFor(m => m.Gender)
-                    <div class="col-sm-12">
-                        <label for="gender">Geslacht</label>
-                        </div>  
-                        <label class="radio-inline">
-                            @Html.RadioButtonFor(m => m.Gender, "0", new { @class = "form-control" }) Man
-                        </label>
-                        <label class="radio-inline">
-                            @Html.RadioButtonFor(m => m.Gender, "1", new { @class = "form-control" }) Vrouw
-                        </label>
-                    </div>
-                <div class="form-group">
-                    @Html.ValidationMessageFor(m => m.BirthDay)
-                    @Html.TextBoxFor(m => m.BirthDay, new { @class = "form-control", placeholder = "Verjaardag" })
-                </div>
-                    <div class="form-group">
-                        @Html.ValidationMessageFor(m => m.SexualPreference)
-                        <div class="col-sm-12">
-                            <label for="gender">Sexuele voorkeur</label>
+        <div class="center-box">
+            <div class="row">
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary()
+                    <div class="col-xs-12">
+                        <h2 class="register">@ViewBag.Title nu!</h2>
+                        <h4>Maak een nieuw FaceDate account aan.</h4>
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label>Ik ben een</label>
+                                    <select name="Gender" class="form-control">
+                                        <option value="0">Vrouw</option>
+                                        <option value="1">Man</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-6">
+                                    <label>en ben</label>
+                                    <select name="SexualPreference" class="form-control">
+                                        <option value="0">Hetero</option>
+                                        <option value="1">Gay</option>
+                                        <option value="2">Bi-seksueel</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <label class="radio-inline">
-                            @Html.RadioButtonFor(m => m.SexualPreference, "0", new { @class = "form-control" }) Hetero
-                        </label>
-                        <label class="radio-inline">
-                            @Html.RadioButtonFor(m => m.SexualPreference, "1", new { @class = "form-control" }) Gay
-                        </label>
-                        <label class="radio-inline">
-                            @Html.RadioButtonFor(m => m.SexualPreference, "2", new { @class = "form-control" }) Bi-seksueel
-                        </label>
                     </div>
-                <div class="form-group">
-                    @Html.ValidationMessageFor(m => m.Password)
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Wachtwoord" })
-                </div>
-                <div class="form-group">
-                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Herhaal wachtwoord" })
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" class="btn btn-default" value="Register" />
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            @Html.ValidationMessageFor(m => m.UserName)
+                            @Html.LabelFor(m => m.UserName)
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Bijvoorbeeld: Frankie" })
+                        </div>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            @Html.LabelFor(m => m.BirthDay)
+                        </div>
+                        <div class="col-xs-4">
+                            @Html.TextBoxFor(m => m.BirthDayDay, new { @class = "form-control", placeholder = "DD", maxlength = "2", value = "" })
+                        </div>
+                        <div class="col-xs-4">
+                            @Html.TextBoxFor(m => m.BirthDayMonth, new { @class = "form-control", placeholder = "MM", maxlength = "2", value = "" })
+                        </div>
+                        <div class="col-xs-4">
+                            @Html.TextBoxFor(m => m.BirthDayYear, new { @class = "form-control", placeholder = "YYYY", maxlength = "4", value = "" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            @Html.ValidationMessageFor(m => m.Email)
+                            @Html.LabelFor(m => m.Email)
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "E-mailadres" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            @Html.LabelFor(m => m.Password)
+                            @Html.ValidationMessageFor(m => m.Password)
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Wachtwoord" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Herhaal wachtwoord" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" class="btn btn-default" value="Register" />
+                        </div>
+                    </div>
+                }
             </div>
-        }
-            </div>
-</div>
-
-        @section Scripts {
-            @Scripts.Render("~/bundles/jqueryval")
-        }
+        </div>
+    </div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
 </body>
 </html>
