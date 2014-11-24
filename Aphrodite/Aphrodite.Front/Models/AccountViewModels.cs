@@ -73,9 +73,19 @@ namespace Aphrodite.Front.Models
 
         public Gender Gender { get; set; }
 
-        public string BirthDay { get; set; }
-
         public SexualPreference SexualPreference { get; set; }
+
+        [Required]
+        public int BirthDayDay { get; set; }
+
+        [Required]
+        public int BirthDayMonth { get; set; }
+
+        [Required]
+        public int BirthDayYear { get; set; }
+
+        [Display(Name = "Geboortedatum")]
+        public DateTime BirthDay { get { return new DateTime(BirthDayYear, BirthDayMonth, BirthDayDay);} }
 
         [Required(ErrorMessage = "Vul je e-mailadres in")]
         [EmailAddress]
@@ -85,12 +95,12 @@ namespace Aphrodite.Front.Models
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Wachtwoord")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Herhaal wachtwoord")]
+        [Compare("Password", ErrorMessage = "De wachtwoorden komen niet overheen")]
         public string ConfirmPassword { get; set; }
     }
 
