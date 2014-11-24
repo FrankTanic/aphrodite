@@ -65,19 +65,29 @@ namespace Aphrodite.Front.Models
 
     public class RegisterViewModel
     {
-        [Required]
-        [Display(Name = "Voornaam")]
-        public string Firstname { get; set; }
+
+        [Required(ErrorMessage = "Vul je gebruikersnaam vergeten")]
+        [StringLength(255, ErrorMessage = "Je gebruikersnaam mag minimaal 2 tekens lang zijn en maximaal 255 tekens", MinimumLength = 2)]
+        [Display(Name = "Gebruikersnaam")]
+        public string UserName { get; set; }
+
+        public Gender Gender { get; set; }
+
+        public SexualPreference SexualPreference { get; set; }
 
         [Required]
-        [Display(Name = "Geslacht")]
-        public string Gender { get; set; }
+        public int BirthDayDay { get; set; }
 
         [Required]
-        [Display(Name = "Leeftijd")]
-        public string BirthDay { get; set; }
+        public int BirthDayMonth { get; set; }
 
         [Required]
+        public int BirthDayYear { get; set; }
+
+        [Display(Name = "Geboortedatum")]
+        public DateTime BirthDay { get { return new DateTime(BirthDayYear, BirthDayMonth, BirthDayDay);} }
+
+        [Required(ErrorMessage = "Vul je e-mailadres in")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -85,19 +95,26 @@ namespace Aphrodite.Front.Models
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Wachtwoord")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Herhaal wachtwoord")]
+        [Compare("Password", ErrorMessage = "De wachtwoorden komen niet overheen")]
         public string ConfirmPassword { get; set; }
     }
 
     public enum Gender
     {
-        Male,
-        Female
+        Male = 0,
+        Female = 1
+    }
+
+    public enum SexualPreference
+    {
+        straight = 0,
+        gay = 1,
+        bi = 2
     }
 
     public class ResetPasswordViewModel

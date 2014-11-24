@@ -7,12 +7,14 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Aphrodite.Front.Models;
+using System.Net;
 
 namespace Aphrodite.Front.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
+        private ManageContext db = new ManageContext();
         public ManageController()
         {
         }
@@ -52,10 +54,31 @@ namespace Aphrodite.Front.Controllers
             {
                 Email = UserManager.GetEmail(User.Identity.GetUserId()),
                 HasPassword = HasPassword(),
-
+                PhoneNumber = await UserManager.GetPhoneNumberAsync(User.Identity.GetUserId()),
+                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
+                Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId()),
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
             };
             return View(model);
         }
+
+
+        public ActionResult ChangeData()
+        {
+            string id = User.Identity.GetUserId();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            IndexViewModel IndexViewModel = db.IndexViewModel.Find(id);
+            if (IndexViewModel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(IndexViewModel);
+        }
+
 
         //
         // GET: /Manage/RemoveLogin
