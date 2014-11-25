@@ -45,20 +45,15 @@ namespace Aphrodite.Front.Controllers
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
                 : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
             var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             ViewBag.currentUser = manager.FindById(User.Identity.GetUserId());
             var model = new IndexViewModel
             {       
-
+   
                 Email = UserManager.GetEmail(User.Identity.GetUserId()),
                 HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(User.Identity.GetUserId()),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
                 Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId()),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId()),
             };
@@ -68,18 +63,7 @@ namespace Aphrodite.Front.Controllers
 
         public ActionResult ChangeData()
         {
-            string id = User.Identity.GetUserId();
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            IndexViewModel IndexViewModel = db.IndexViewModel.Find(id);
-            if (IndexViewModel == null)
-            {
-                return HttpNotFound();
-            }
-            return View(IndexViewModel);
+            return View();
         }
 
 
