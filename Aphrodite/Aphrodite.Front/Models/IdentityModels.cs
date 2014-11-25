@@ -9,9 +9,10 @@ namespace Aphrodite.Front.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        public string DisplayName { get; set; }
         public string BirthDay { get; set; }
         public Gender Gender { get; set; }
-        public SexualPreference SexualPreference { get; set; }
+        public Gender SexualPreference { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
