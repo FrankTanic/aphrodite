@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Aphrodite.Front.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Aphrodite.Front.Models;
-using System.Net;
 
 namespace Aphrodite.Front.Controllers
 {
@@ -49,15 +50,17 @@ namespace Aphrodite.Front.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
-
+            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            ViewBag.currentUser = manager.FindById(User.Identity.GetUserId());
             var model = new IndexViewModel
-            {
+            {       
+
                 Email = UserManager.GetEmail(User.Identity.GetUserId()),
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(User.Identity.GetUserId()),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
                 Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId()),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId()),
             };
             return View(model);
         }

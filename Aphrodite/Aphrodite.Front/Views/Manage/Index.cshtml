@@ -1,7 +1,4 @@
 ﻿@model Aphrodite.Front.Models.IndexViewModel
-@using Microsoft.AspNet.Identity;
-@using Microsoft.AspNet.Identity.EntityFramework;
-@using Aphrodite.Front.Models;
 @{
     ViewBag.Title = "Profiel";
 }
@@ -15,31 +12,21 @@
 
     </div>
     <dl class="dl-horizontal">
-         @{
-            if (Request.IsAuthenticated)
-            {
-                var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-                var currentUser = manager.FindById(User.Identity.GetUserId());
-                int gender = Convert.ToInt32(currentUser.Gender);
-                String man = "Man";
-                String Frank = "Vrouw";
         <dt>Voornaam:</dt>
-        <dd>@currentUser.Firstname</dd>
+        <dd>@ViewBag.currentUser.UserName</dd>
         <dt>E-mailadres:</dt>
         <dd>@Model.Email</dd>
         <dt>Geslacht:</dt>
-        <dd>
-        @if ( @gender == 0)
+        @if ( @ViewBag.currentUser.gender == 0)
         {
-            @man;
+            <dd>Man</dd>
         }
-        else 
+        else
         {
-            @Frank;
+            <dd>Vrouw</dd>
         }
-         </dd>
         <dt>Geboortedatum</dt>
-        <dd>@currentUser.BirthDay</dd>
+        <dd>@ViewBag.currentUser.BirthDay</dd>
         <dt>Locatie:</dt>
         <dd>Not added yet.</dd>
             }
