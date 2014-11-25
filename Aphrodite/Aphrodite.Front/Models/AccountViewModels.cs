@@ -79,15 +79,15 @@ namespace Aphrodite.Front.Models
         [Required]
         public Gender SexualPreference { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Geef een geboorte dag op")]
         [Range(1, 31, ErrorMessage = "Dit is geen geldige dag")]
         public int BirthDayDay { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Geef een geboorte maand op")]
         [Range(1, 12, ErrorMessage = "Dit is geen geldige maand")]
         public int BirthDayMonth { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Geef een geboorte jaar op")]
         [Range(1901, 2014, ErrorMessage = "Dit is een slecht jaar")]
         public int BirthDayYear { get; set; }
 
@@ -109,13 +109,13 @@ namespace Aphrodite.Front.Models
         }
 
         [Required(ErrorMessage = "Vul je e-mailadres in")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Dit is geen geldig e-mailadres")]
         [Display(Name = "Email")]
         [CustomValidation(typeof(ValidationCheck), "IsUniqueEmail")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "Het {0} moet op zijn minst {2} tekens lang zijn.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Wachtwoord")]
         public string Password { get; set; }
@@ -179,7 +179,7 @@ namespace Aphrodite.Front.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "De wachtwoorden komen niet overheen")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

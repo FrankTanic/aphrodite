@@ -36,11 +36,13 @@ textarea {
 }
 
 .field-validation-error {
-    margin-bottom: 5px;
-    color: red;
+    display: block;
+    width: 100%;
+    padding: 5px;
+    color: #D8000C;
 }
 
 .input-validation-error {
-    border: 1px solid red;
+    border: 1px solid #D8000C;
 }
 
