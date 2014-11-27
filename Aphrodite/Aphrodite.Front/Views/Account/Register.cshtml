@@ -47,6 +47,7 @@
                     <div class="form-group">
                         <div class="col-xs-12">
                             @Html.LabelFor(m => m.BirthDay)
+                            @Html.ValidationMessageFor(m => m.BirthDay)
                             @Html.ValidationMessageFor(m => m.BirthDayDay)
                             @Html.ValidationMessageFor(m => m.BirthDayMonth)
                             @Html.ValidationMessageFor(m => m.BirthDayYear)
