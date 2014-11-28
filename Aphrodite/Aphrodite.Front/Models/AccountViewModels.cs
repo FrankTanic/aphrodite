@@ -77,7 +77,7 @@ namespace Aphrodite.Front.Models
         public Gender Gender { get; set; }
 
         [Required]
-        public Gender SexualPreference { get; set; }
+        public SexualPreference SexualPreference { get; set; }
 
         [Required(ErrorMessage = "Geef een geboorte dag op")]
         [Range(1, 31, ErrorMessage = "Dit is geen geldige dag")]
@@ -131,6 +131,12 @@ namespace Aphrodite.Front.Models
     {
         Man = 0,
         Vrouw = 1
+    }
+
+    public enum SexualPreference
+    {
+        Man = 1,
+        Vrouw = 0
     }
 
     public class ValidationCheck
