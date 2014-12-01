@@ -100,20 +100,43 @@ namespace Aphrodite.Front.Controllers
                 int newCount = count++;
 
                 string ext = Path.GetExtension(file.FileName);
-                var newFileName = User.Identity.GetUserId() + "_" + newCount + ext;
-
-                var path = Path.Combine(Server.MapPath("~/Content/Upload"), newFileName);
-                file.SaveAs(path);
-
-                UserPhoto photo = new UserPhoto
+                string[] accepted_extentions = new string[] { ".jpg", ".png", ".jpeg", ".gif", ".bmp" };
+                if (ext != null)
                 {
-                    UserID = UID,
-                    File = newFileName
-                };
+                    foreach (string ae in accepted_extentions)
+                    {
+                        if (ae.Contains(ext))
+                        {
+                            var newFileName = User.Identity.GetUserId() + "_" + newCount + ext;
+
+                            var path = Path.Combine(Server.MapPath("~/Content/Upload"), newFileName);
+                            file.SaveAs(path);
+
+                            UserPhoto photo = new UserPhoto
+                            {
+                                UserID = UID,
+                                File = newFileName
+                            };
 
 
-                db.Photo.Add(photo);
-                db.SaveChanges();
+                            db.Photo.Add(photo);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            TempData["Upload_message"] = "This picture format is not accepted";
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    TempData["Upload_message"] = "The picture format is missing";
+                }
+            }
+            else
+            {
+                TempData["Upload_message"] = "You must choose a picture";
             }
 
             return RedirectToAction("Index");
