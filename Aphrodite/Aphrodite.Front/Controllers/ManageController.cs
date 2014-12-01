@@ -11,8 +11,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Mvc;
-using Aphrodite.Front.Models;
 
 namespace Aphrodite.Front.Controllers
 {
@@ -69,20 +67,30 @@ namespace Aphrodite.Front.Controllers
         public ActionResult ChangeData()
         {
             string Id = User.Identity.GetUserId();
+            var user = db.Users.Where(x => x.Id == Id).Single();
+
+            EditViewModel edit = new EditViewModel
+            {
+                DisplayName = user.DisplayName,
+                Email = user.Email
+            };
+
             ViewBag.id = Id;
-            return View();
+            return View(edit);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangeData(RegisterViewModel model)
+        public ActionResult ChangeData(EditViewModel model)
         {
 
             string UID = User.Identity.GetUserId();
             var user = db.Users.Where(x => x.Id == UID).Single();
 
+            user.Gender = model.Gender;
             user.DisplayName = model.DisplayName;
             user.Email = model.Email;
+            user.UserName = user.Email;
             db.Entry(user).State = EntityState.Modified;
             db.SaveChanges();
 
