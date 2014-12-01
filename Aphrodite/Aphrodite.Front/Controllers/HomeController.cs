@@ -20,8 +20,15 @@ namespace Aphrodite.Front.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
+        public ActionResult Upload()
+        {
+            ViewBag.Uploadstatus = "Nothing here";
+            return View();
+
+        }
+        
         [HttpPost]
-        public ActionResult Index(HttpPostedFileBase file)
+        public ActionResult Upload(HttpPostedFileBase file)
         {
 
             if (file.ContentLength > 0)
@@ -30,8 +37,8 @@ namespace Aphrodite.Front.Controllers
                 var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
                 file.SaveAs(path);
             }
-
-            return RedirectToAction("Index");
+            ViewBag.Uploadstatus = "Upload done^^";
+            return RedirectToAction("Upload");
         }
     }
 }
