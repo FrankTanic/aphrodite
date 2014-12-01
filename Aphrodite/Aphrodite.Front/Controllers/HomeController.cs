@@ -20,25 +20,7 @@ namespace Aphrodite.Front.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
-        public ActionResult Upload()
-        {
-            ViewBag.Uploadstatus = "Nothing here";
-            return View();
-
-        }
         
-        [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase file)
-        {
 
-            if (file.ContentLength > 0)
-            {
-                var fileName = Path.GetFileName(file.FileName);
-                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
-                file.SaveAs(path);
-            }
-            ViewBag.Uploadstatus = "Upload done^^";
-            return RedirectToAction("Upload");
-        }
     }
 }
