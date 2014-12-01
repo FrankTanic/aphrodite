@@ -67,6 +67,7 @@ namespace Aphrodite.Front.Models
 
     public class RegisterViewModel
     {
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "Vul je voornaam naam in")]
         [StringLength(255, ErrorMessage = "Je voornaam naam moet uit minimaal 2 tekens en max 255 tekens bestaan", MinimumLength = 2)]
