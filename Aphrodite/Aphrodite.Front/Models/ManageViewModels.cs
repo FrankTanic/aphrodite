@@ -20,10 +20,6 @@ namespace Aphrodite.Front.Models
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
     }
-    public class ManageContext : DbContext
-    {
-        public DbSet<IndexViewModel> IndexViewModel { get; set; }
-    }
 
     public class ManageLoginsViewModel
     {
