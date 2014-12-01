@@ -4,18 +4,21 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Aphrodite.Front.Models;
 
 namespace Aphrodite.Front.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
-        private ManageContext db = new ManageContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public ManageController()
         {
         }
@@ -88,6 +91,36 @@ namespace Aphrodite.Front.Controllers
             }
             AddErrors(result);
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            if (file != null && file.ContentLength > 0)
+            {
+                string UID = User.Identity.GetUserId();
+
+                var count = db.Photo.Where(x => x.UserID == UID).Count();
+                int newCount = count++;
+
+                string ext = Path.GetExtension(file.FileName);
+                var newFileName = User.Identity.GetUserId() + "_" + newCount + ext;
+
+                var path = Path.Combine(Server.MapPath("~/Content/Upload"), newFileName);
+                file.SaveAs(path);
+
+                UserPhoto photo = new UserPhoto
+                {
+                    UserID = UID,
+                    File = newFileName
+                };
+
+
+                db.Photo.Add(photo);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
         }
 
 
