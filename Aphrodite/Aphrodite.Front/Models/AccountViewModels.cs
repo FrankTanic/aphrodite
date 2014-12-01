@@ -117,6 +117,7 @@ namespace Aphrodite.Front.Models
 
         [Required(ErrorMessage = "Vul je wachtwoord in")]
         [StringLength(100, ErrorMessage = "Het {0} moet op zijn minst {2} tekens lang zijn.", MinimumLength = 6)]
+        [RegularExpression(@"^.*(?=.{6})(?=.*\d)(?=.*[a-zA-Z]).*$", ErrorMessage = "Het wachtwoord moet ministens uit een Hoofdletter, kleine letters en een cijfer bestaan")]
         [DataType(DataType.Password)]
         [Display(Name = "Wachtwoord")]
         public string Password { get; set; }
