@@ -4,6 +4,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
+using System.Web.Mvc;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -18,7 +20,6 @@ namespace Aphrodite.Front.Controllers
     public class ManageController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
         public ManageController()
         {
         }
@@ -68,28 +69,23 @@ namespace Aphrodite.Front.Controllers
         public ActionResult ChangeData()
         {
             string Id = User.Identity.GetUserId();
-            return View(Id);
+            ViewBag.id = Id;
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangeData(ChangePasswordViewModel model)
+        public ActionResult ChangeData(RegisterViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-            if (result.Succeeded)
-            {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null)
-                {
-                    await SignInAsync(user, isPersistent: false);
-                }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
-            }
-            AddErrors(result);
+
+            string UID = User.Identity.GetUserId();
+            var user = db.Users.Where(x => x.Id == UID).Single();
+
+            user.DisplayName = model.DisplayName;
+            user.Email = model.Email;
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+
             return View(model);
         }
 
