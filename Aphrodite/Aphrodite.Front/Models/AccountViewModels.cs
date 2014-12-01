@@ -68,16 +68,16 @@ namespace Aphrodite.Front.Models
     public class RegisterViewModel
     {
 
-        [Required(ErrorMessage = "Vul je Display naam in!")]
-        [StringLength(255, ErrorMessage = "Je display naam moet uit minimaal 2 tekens bestaan en max 255 tekens", MinimumLength = 2)]
-        [Display(Name = "Display Naam")]
+        [Required(ErrorMessage = "Vul je voornaam naam in")]
+        [StringLength(255, ErrorMessage = "Je voornaam naam moet uit minimaal 2 tekens en max 255 tekens bestaan", MinimumLength = 2)]
+        [Display(Name = "Voornaam")]
         public string DisplayName { get; set; }
 
         [Required]
         public Gender Gender { get; set; }
 
         [Required]
-        public Gender SexualPreference { get; set; }
+        public SexualPreference SexualPreference { get; set; }
 
         [Required(ErrorMessage = "Geef een geboorte dag op")]
         [Range(1, 31, ErrorMessage = "Dit is geen geldige dag")]
@@ -88,11 +88,12 @@ namespace Aphrodite.Front.Models
         public int BirthDayMonth { get; set; }
 
         [Required(ErrorMessage = "Geef een geboorte jaar op")]
-        [Range(1901, 2014, ErrorMessage = "Dit is een slecht jaar")]
+        [Range(1901, 2014, ErrorMessage = "Dit is geen geldig jaar")]
         public int BirthDayYear { get; set; }
 
         [Required]
         [Display(Name = "Geboortedatum")]
+        [CustomValidation(typeof(ValidationCheck), "IsEigtheenPlus")]
         public DateTime? BirthDay
         {
             get
@@ -114,7 +115,7 @@ namespace Aphrodite.Front.Models
         [CustomValidation(typeof(ValidationCheck), "IsUniqueEmail")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vul je wachtwoord in")]
         [StringLength(100, ErrorMessage = "Het {0} moet op zijn minst {2} tekens lang zijn.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Wachtwoord")]
@@ -130,6 +131,12 @@ namespace Aphrodite.Front.Models
     {
         Man = 0,
         Vrouw = 1
+    }
+
+    public enum SexualPreference
+    {
+        Man = 1,
+        Vrouw = 0
     }
 
     public class ValidationCheck
@@ -161,7 +168,24 @@ namespace Aphrodite.Front.Models
                     }
                 }
             }
+        
+        public static ValidationResult IsEigtheenPlus(DateTime birthday)
+        {
+            DateTime now = DateTime.Today;
+            int age = now.Year - birthday.Year;
+
+            if(age < 18)
+            {
+                return new ValidationResult("Je moet minimaal 18 jaar en ouder zijn");
+            }
+            else
+            {
+                return ValidationResult.Success;
+            }
+
         }
+
+    }
 
 
     public class ResetPasswordViewModel
