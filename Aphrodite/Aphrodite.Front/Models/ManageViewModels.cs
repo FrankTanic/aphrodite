@@ -11,18 +11,14 @@ namespace Aphrodite.Front.Models
 {
     public class IndexViewModel
     {
-        public string FirstName { get; set; }
+        public string UserName { get; set; }
         public string Email { get; set; }
-        public string Gender { get; set; }
+        public int Gender { get; set; }
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
-    }
-    public class ManageContext : DbContext
-    {
-        public DbSet<IndexViewModel> IndexViewModel { get; set; }
     }
 
     public class ManageLoginsViewModel

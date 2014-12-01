@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -66,34 +68,55 @@ namespace Aphrodite.Front.Models
     public class RegisterViewModel
     {
 
-        [Required(ErrorMessage = "Vul je gebruikersnaam vergeten")]
-        [StringLength(255, ErrorMessage = "Je gebruikersnaam mag minimaal 2 tekens lang zijn en maximaal 255 tekens", MinimumLength = 2)]
-        [Display(Name = "Gebruikersnaam")]
-        public string UserName { get; set; }
+        [Required(ErrorMessage = "Vul je voornaam naam in")]
+        [StringLength(255, ErrorMessage = "Je voornaam naam moet uit minimaal 2 tekens en max 255 tekens bestaan", MinimumLength = 2)]
+        [Display(Name = "Voornaam")]
+        public string DisplayName { get; set; }
 
+        [Required]
         public Gender Gender { get; set; }
 
+        [Required]
         public SexualPreference SexualPreference { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Geef een geboorte dag op")]
+        [Range(1, 31, ErrorMessage = "Dit is geen geldige dag")]
         public int BirthDayDay { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Geef een geboorte maand op")]
+        [Range(1, 12, ErrorMessage = "Dit is geen geldige maand")]
         public int BirthDayMonth { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Geef een geboorte jaar op")]
+        [Range(1901, 2014, ErrorMessage = "Dit is geen geldig jaar")]
         public int BirthDayYear { get; set; }
 
+        [Required]
         [Display(Name = "Geboortedatum")]
-        public DateTime BirthDay { get { return new DateTime(BirthDayYear, BirthDayMonth, BirthDayDay);} }
+        [CustomValidation(typeof(ValidationCheck), "IsEigtheenPlus")]
+        public DateTime? BirthDay
+        {
+            get
+            {
+                try
+                {
+                    return new DateTime(BirthDayYear, BirthDayMonth, BirthDayDay);
+                }
+                catch
+                {
+                    return DateTime.MinValue;
+                }
+            }
+        }
 
         [Required(ErrorMessage = "Vul je e-mailadres in")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Dit is geen geldig e-mailadres")]
         [Display(Name = "Email")]
+        [CustomValidation(typeof(ValidationCheck), "IsUniqueEmail")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Vul je wachtwoord in")]
+        [StringLength(100, ErrorMessage = "Het {0} moet op zijn minst {2} tekens lang zijn.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Wachtwoord")]
         public string Password { get; set; }
@@ -106,16 +129,64 @@ namespace Aphrodite.Front.Models
 
     public enum Gender
     {
-        Male = 0,
-        Female = 1
+        Man = 0,
+        Vrouw = 1
     }
 
     public enum SexualPreference
     {
-        straight = 0,
-        gay = 1,
-        bi = 2
+        Man = 1,
+        Vrouw = 0
     }
+
+    public class ValidationCheck
+    {
+        public static ValidationResult IsUniqueEmail(string mail)
+        {
+            if (mail == null)
+            {
+                return null;
+            }
+            else
+            {
+                var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+                var currentEmail = manager.FindByEmail(mail);
+
+                if (currentEmail == null)
+                {
+                    return null;
+                }
+                    string email = currentEmail.ToString();
+
+                    if (email == "")
+                    {
+                        return ValidationResult.Success;
+                    }
+                    else
+                    {
+                        return new ValidationResult("Het e-mailadres is al ingebruikt");
+                    }
+                }
+            }
+        
+        public static ValidationResult IsEigtheenPlus(DateTime birthday)
+        {
+            DateTime now = DateTime.Today;
+            int age = now.Year - birthday.Year;
+
+            if(age < 18)
+            {
+                return new ValidationResult("Je moet minimaal 18 jaar en ouder zijn");
+            }
+            else
+            {
+                return ValidationResult.Success;
+            }
+
+        }
+
+    }
+
 
     public class ResetPasswordViewModel
     {
@@ -132,7 +203,7 @@ namespace Aphrodite.Front.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "De wachtwoorden komen niet overheen")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

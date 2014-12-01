@@ -21,7 +21,6 @@
                 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
-                    @Html.ValidationSummary()
                     <div class="col-xs-12">
                         <h2 class="register">@ViewBag.Title nu!</h2>
                         <h4>Maak een nieuw FaceDate account aan.</h4>
@@ -29,32 +28,29 @@
                             <div class="form-group">
                                 <div class="col-xs-6">
                                     <label>Ik ben een</label>
-                                    <select name="Gender" class="form-control">
-                                        <option value="0">Vrouw</option>
-                                        <option value="1">Man</option>
-                                    </select>
+                                    @Html.EnumDropDownListFor(m => m.Gender, new { @class = "form-control" })
                                 </div>
                                 <div class="col-xs-6">
-                                    <label>en ben</label>
-                                    <select name="SexualPreference" class="form-control">
-                                        <option value="0">Hetero</option>
-                                        <option value="1">Gay</option>
-                                        <option value="2">Bi-seksueel</option>
-                                    </select>
+                                    <label>en ben op zoek naar</label>
+                                    @Html.EnumDropDownListFor(m => m.SexualPreference, new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-xs-12">
-                            @Html.ValidationMessageFor(m => m.UserName)
-                            @Html.LabelFor(m => m.UserName)
-                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Bijvoorbeeld: Frankie" })
+                        <div class="col-xs-12">                           
+                            @Html.LabelFor(m => m.DisplayName)
+                            @Html.ValidationMessageFor(m => m.DisplayName)
+                            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", placeholder = "Bijvoorbeeld: Frankie" })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
                             @Html.LabelFor(m => m.BirthDay)
+                            @Html.ValidationMessageFor(m => m.BirthDay)
+                            @Html.ValidationMessageFor(m => m.BirthDayDay)
+                            @Html.ValidationMessageFor(m => m.BirthDayMonth)
+                            @Html.ValidationMessageFor(m => m.BirthDayYear)
                         </div>
                         <div class="col-xs-4">
                             @Html.TextBoxFor(m => m.BirthDayDay, new { @class = "form-control", placeholder = "DD", maxlength = "2", value = "" })
@@ -68,8 +64,8 @@
                     </div>
                     <div class="form-group">
                         <div class="col-xs-12">
-                            @Html.ValidationMessageFor(m => m.Email)
                             @Html.LabelFor(m => m.Email)
+                            @Html.ValidationMessageFor(m => m.Email)
                             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "E-mailadres" })
                         </div>
                     </div>

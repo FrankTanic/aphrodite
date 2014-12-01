@@ -1,20 +1,25 @@
-﻿using System;
+﻿using Aphrodite.Front.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System;
+using System.Web.Mvc;
+using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using Aphrodite.Front.Models;
-using System.Net;
 
 namespace Aphrodite.Front.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
-        private ManageContext db = new ManageContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
         public ManageController()
         {
         }
@@ -44,39 +49,74 @@ namespace Aphrodite.Front.Controllers
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
                 : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
-
+            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            ViewBag.currentUser = manager.FindById(User.Identity.GetUserId());
             var model = new IndexViewModel
-            {
+            {       
+   
                 Email = UserManager.GetEmail(User.Identity.GetUserId()),
                 HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(User.Identity.GetUserId()),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
                 Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId()),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId()),
             };
             return View(model);
         }
 
-
+        //
+        // GET: /Manage/ChangeData
         public ActionResult ChangeData()
         {
-            string id = User.Identity.GetUserId();
-            if (id == null)
+            string Id = User.Identity.GetUserId();
+            ViewBag.id = Id;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeData(RegisterViewModel model)
+        {
+
+            string UID = User.Identity.GetUserId();
+            var user = db.Users.Where(x => x.Id == UID).Single();
+
+            user.DisplayName = model.DisplayName;
+            user.Email = model.Email;
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            if (file != null && file.ContentLength > 0)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                string UID = User.Identity.GetUserId();
+
+                var count = db.Photo.Where(x => x.UserID == UID).Count();
+                int newCount = count++;
+
+                string ext = Path.GetExtension(file.FileName);
+                var newFileName = User.Identity.GetUserId() + "_" + newCount + ext;
+
+                var path = Path.Combine(Server.MapPath("~/Content/Upload"), newFileName);
+                file.SaveAs(path);
+
+                UserPhoto photo = new UserPhoto
+                {
+                    UserID = UID,
+                    File = newFileName
+                };
+
+
+                db.Photo.Add(photo);
+                db.SaveChanges();
             }
 
-            IndexViewModel IndexViewModel = db.IndexViewModel.Find(id);
-            if (IndexViewModel == null)
-            {
-                return HttpNotFound();
-            }
-            return View(IndexViewModel);
+            return RedirectToAction("Index");
         }
 
 
