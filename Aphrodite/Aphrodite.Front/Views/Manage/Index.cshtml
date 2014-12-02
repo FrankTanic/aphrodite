@@ -16,13 +16,15 @@
         <input type="submit" />
     }
     <dl class="dl-horizontal">
-        <dt>Voornaam:</dt>
+        <dt>DisplayName:</dt>
         <dd>@ViewBag.currentUser.DisplayName</dd>
-        <dt>E-mailadres:</dt>
-        <dd>@Model.Email</dd>
-        <dt>Geslacht:</dt>
+        <dt>E-mail:</dt>
+        <dd id="Sex" >@ViewBag.currentUser.Email</dd>
+        <dt>Gender:</dt>
         <dd>@ViewBag.currentUser.Gender</dd>
-        <dt>Geboortedatum</dt>
+        <dt> Sexual Preference </dt>
+        <dd id="Sex">@ViewBag.currentUser.SexualPreference</dd>
+        <dt>Birthday</dt>
         <dd>@ViewBag.Date</dd>
         <dt>Locatie:</dt>
         <dd>Not added yet.</dd>
