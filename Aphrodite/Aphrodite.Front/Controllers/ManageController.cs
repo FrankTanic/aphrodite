@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
+using System.Globalization;
 
 namespace Aphrodite.Front.Controllers
 {
@@ -51,6 +52,9 @@ namespace Aphrodite.Front.Controllers
                 : "";
             var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             ViewBag.currentUser = manager.FindById(User.Identity.GetUserId());
+            var managerFull = manager.FindById(User.Identity.GetUserId());
+            DateTime managerDate =  Convert.ToDateTime(managerFull.BirthDay);
+            ViewBag.Date = managerDate.ToString("D", CultureInfo.CreateSpecificCulture("en-US"));
             var model = new IndexViewModel
             {       
    
