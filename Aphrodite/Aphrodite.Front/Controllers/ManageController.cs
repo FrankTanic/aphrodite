@@ -75,7 +75,6 @@ namespace Aphrodite.Front.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangeData(RegisterViewModel model)
         {
-
             string UID = User.Identity.GetUserId();
             var user = db.Users.Where(x => x.Id == UID).Single();
 

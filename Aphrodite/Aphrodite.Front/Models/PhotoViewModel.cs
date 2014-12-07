@@ -11,6 +11,7 @@ namespace Aphrodite.Front.Models
         public int ID { get; set; }
         public string UserID { get; set; }
         public string File { get; set; }
+        public virtual ProfileViewModel Profile { get; set; }
     }
 
 }
