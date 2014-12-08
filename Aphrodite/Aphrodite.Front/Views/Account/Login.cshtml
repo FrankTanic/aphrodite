@@ -14,44 +14,38 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
-<body>
+<body class="fd-background-color">
     <div class="container">
-    <h2>@ViewBag.Title.</h2>
-    <div class="row">
-        <div class="col-md-12">
-            <section id="loginForm">
-                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div id="login-form">
+                    <img src="@Url.Content("~/Content/img/facedate_logo_normal.png")" class="img-responsive center-block" />
+
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationMessage("InvalidLogin", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "txt-input", placeholder = "E-mailadres", autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                         </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        <div class="form-group">
+                            @Html.PasswordFor(m => m.Password, new { @class = "txt-input", placeholder = "Wachtwoord" })
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Log in" class="btn btn-default" />
+                        <div class="form-group">
+                            <input type="submit" value="Inloggen" class="login-btn" />
                         </div>
-                    </div>
-                    <p>
-                        @Html.ActionLink("Register as a new user", "Register")
-                    </p>
-                }
-            </section>
+                        <div class="form-group">
+                            <div class="footer-nav-link">
+                                @Html.ActionLink("Registreer nu!", "Register")
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     </div>
-</div>
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
     }

@@ -51,12 +51,12 @@ namespace Aphrodite.Front.Models
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Vul je E-mailadres in")]
         [Display(Name = "Email")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Dit is geen geldig e-mailadres")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vul je wachtwoord in")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }

@@ -79,7 +79,7 @@ namespace Aphrodite.Front.Controllers
                 case SignInStatus.Success:
                     return RedirectToAction("Index", "Home");
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("InvalidLogin", "Je e-mailadres of wachtwoord is onjuist");
                     return View(model);
             }
         }
