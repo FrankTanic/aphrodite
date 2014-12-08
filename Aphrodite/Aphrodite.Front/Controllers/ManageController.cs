@@ -108,19 +108,18 @@ namespace Aphrodite.Front.Controllers
                         if (ae.Contains(ext))
                         {
                             var newFileName = User.Identity.GetUserId() + "_" + newCount + ext;
-
                             var path = Path.Combine(Server.MapPath("~/Content/Upload"), newFileName);
+                            
                             file.SaveAs(path);
-
                             UserPhoto photo = new UserPhoto
                             {
                                 UserID = UID,
                                 File = newFileName
                             };
-
-
+                            
                             db.Photo.Add(photo);
                             db.SaveChanges();
+                            TempData["Upload_message"] = "Upload succeded^^";
                         }
                         else
                         {

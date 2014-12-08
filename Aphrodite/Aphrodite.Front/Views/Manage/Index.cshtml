@@ -6,6 +6,7 @@
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
+<p>@TempData["Upload_message"]</p>
 <div>
     <hr />
     @using (Html.BeginForm("Upload", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
@@ -15,6 +16,7 @@
 
         <input type="submit" />
     }
+
     <dl class="dl-horizontal">
         <dt>Voornaam:</dt>
         <dd>@ViewBag.currentUser.DisplayName</dd>
