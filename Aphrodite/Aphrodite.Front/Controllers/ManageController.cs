@@ -45,7 +45,7 @@ namespace Aphrodite.Front.Controllers
         // GET: /Manage/Index
         public ActionResult Index(ManageMessageId? message)
         {
-            ViewBag.StatusMessage = GetErrorMessage(message);
+            ViewBag.StatusMessage = TempData["UploadMessage"] ?? GetErrorMessage(message);
 
             string userId = User.Identity.GetUserId();
             var user = UserManager.FindById(User.Identity.GetUserId());
@@ -100,52 +100,36 @@ namespace Aphrodite.Front.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase file)
         {
-            if (file != null && file.ContentLength > 0)
+            if (file == null || file.ContentLength == 0)
             {
-                string UID = User.Identity.GetUserId();
-
-                var count = db.Photos.Where(x => x.UserID == UID).Count();
-                int newCount = count++;
-
-                string ext = Path.GetExtension(file.FileName);
-                string[] accepted_extentions = new string[] { ".jpg", ".png", ".jpeg", ".gif", ".bmp" };
-                if (ext != null)
-                {
-                    foreach (string ae in accepted_extentions)
-                    {
-                        if (ae.Contains(ext))
-                        {
-                            var newFileName = User.Identity.GetUserId() + "_" + newCount + ext;
-                            var path = Path.Combine(Server.MapPath("~/Content/Upload"), newFileName);
-                            
-                            file.SaveAs(path);
-                            UserPhoto photo = new UserPhoto
-                            {
-                                UserID = UID,
-                                File = newFileName
-                            };
-                            
-                            db.Photos.Add(photo);
-                            db.SaveChanges();
-                            TempData["Upload_message"] = "Upload succeded^^";
-                        }
-                        else
-                        {
-                            TempData["Upload_message"] = "This picture format is not accepted";
-                        }
-                    }
-                    
-                }
-                else
-                {
-                    TempData["Upload_message"] = "The picture format is missing";
-                }
-            }
-            else
-            {
-                TempData["Upload_message"] = "You must choose a picture";
+                TempData["UploadMessage"] = "You must choose a picture.";
+                return RedirectToAction("Index");
             }
 
+            string extension = Path.GetExtension(file.FileName);
+            string[] acceptedExtensions = new string[] { ".jpg", ".png", ".jpeg", ".gif", ".bmp" };
+
+            if (!acceptedExtensions.Contains(extension))
+            {
+                TempData["UploadMessage"] = "This picture format is not accepted.";
+                return RedirectToAction("Index");
+            }
+
+            string fileId = Guid.NewGuid().ToString();
+            string fileName = String.Format("{0}.{1}", fileId, extension);
+            string path = Path.Combine(Server.MapPath("~/Content/Upload"), fileName);                            
+            file.SaveAs(path);
+
+            UserPhoto photo = new UserPhoto
+            {
+                UserID = User.Identity.GetUserId(),
+                File = fileName
+            };          
+            db.Photos.Add(photo);
+            db.SaveChanges();
+
+            TempData["UploadMessage"] = "Upload succeeded.";
+     
             return RedirectToAction("Index");
         }
 
