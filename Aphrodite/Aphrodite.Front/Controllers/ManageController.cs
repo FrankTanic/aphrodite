@@ -43,33 +43,23 @@ namespace Aphrodite.Front.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public ActionResult Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage = GetErrorMessage(message);
 
-            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            ViewBag.currentUser = manager.FindById(User.Identity.GetUserId());
-            var managerFull = manager.FindById(User.Identity.GetUserId());
-            DateTime managerDate =  Convert.ToDateTime(managerFull.BirthDay);
-            ViewBag.Date = managerDate.ToString("D", CultureInfo.CreateSpecificCulture("en-US"));
-            String UID = User.Identity.GetUserId();
-            var photos = db.Photo.Where(x => x.UserID == UID).FirstOrDefault();
-            if (photos == null )
+            string userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            DateTime birthDay = Convert.ToDateTime(user.BirthDay);
+            var photo = db.Photos.Where(x => x.UserID == userId).FirstOrDefault();
+
+            var model = new IndexViewModel()
             {
-                ViewBag.Photofile = "~/Content/img/no-image.png";
-            }
-            else
-            {
-                ViewBag.Photofile = "~/Content/Upload/" + photos.File;
-            }
-            var model = new IndexViewModel
-            {       
-   
-                Email = UserManager.GetEmail(User.Identity.GetUserId()),
-                HasPassword = HasPassword(),
-                Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId()),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId()),
+                User = user,
+                Email = UserManager.GetEmail(userId),
+                BirthDay = birthDay.ToString("D", CultureInfo.CreateSpecificCulture("en-US")),
+                Photo = (photo == null) ? "~/Content/img/no-image.png" : "~/Content/Upload/" + photo.File
             };
+
             return View(model);
         }
 
@@ -114,7 +104,7 @@ namespace Aphrodite.Front.Controllers
             {
                 string UID = User.Identity.GetUserId();
 
-                var count = db.Photo.Where(x => x.UserID == UID).Count();
+                var count = db.Photos.Where(x => x.UserID == UID).Count();
                 int newCount = count++;
 
                 string ext = Path.GetExtension(file.FileName);
@@ -135,7 +125,7 @@ namespace Aphrodite.Front.Controllers
                                 File = newFileName
                             };
                             
-                            db.Photo.Add(photo);
+                            db.Photos.Add(photo);
                             db.SaveChanges();
                             TempData["Upload_message"] = "Upload succeded^^";
                         }
