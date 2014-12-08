@@ -59,7 +59,7 @@ namespace Aphrodite.Front.Controllers
             var photos = db.Photo.Where(x => x.UserID == UID).FirstOrDefault();
             if (photos == null )
             {
-                ViewBag.Photofile = "";
+                ViewBag.Photofile = "~/Content/img/no-image.png";
             }
             else
             {
