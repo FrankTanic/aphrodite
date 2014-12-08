@@ -15,82 +15,81 @@
 
 </head>
 <body>
+    <div class="page-header">
+        <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <img src="@Url.Content("~/Content/img/facedate_logo_normal.png")" class="img-responsive center-block" />
+       </div>
+         </div>
+    </div>
     <div class="container">
-        <div class="center-box">
-            <div class="row">
-                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div id="reg-form">
+                     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
                 {
                     @Html.AntiForgeryToken()
-                    <div class="col-xs-12">
-                        <h2 class="register">@ViewBag.Title nu!</h2>
-                        <h4>Maak een nieuw FaceDate account aan.</h4>
-                        <div class="form-horizontal">
                             <div class="form-group">
-                                <div class="col-xs-6">
+                                <div class="input-group">
+                                <div class="col-md-6 gender-left">
                                     <label>Ik ben een</label>
                                     @Html.EnumDropDownListFor(m => m.Gender, new { @class = "form-control" })
                                 </div>
-                                <div class="col-xs-6">
+                                <div class="col-md-6 pref-right">
                                     <label>en ben op zoek naar</label>
                                     @Html.EnumDropDownListFor(m => m.SexualPreference, new { @class = "form-control" })
                                 </div>
+                                    </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-12">                           
-                            @Html.LabelFor(m => m.DisplayName)
+                         <hr />
+                    <div class="form-group">                         
                             @Html.ValidationMessageFor(m => m.DisplayName)
-                            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", placeholder = "Bijvoorbeeld: Frankie" })
-                        </div>
+                            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", placeholder = "Voornaam", autocomplete = "off" })
                     </div>
                     <div class="form-group">
-                        <div class="col-xs-12">
-                            @Html.LabelFor(m => m.BirthDay)
-                            @Html.ValidationMessageFor(m => m.BirthDay)
-                            @Html.ValidationMessageFor(m => m.BirthDayDay)
-                            @Html.ValidationMessageFor(m => m.BirthDayMonth)
-                            @Html.ValidationMessageFor(m => m.BirthDayYear)
-                        </div>
-                        <div class="col-xs-4">
-                            @Html.TextBoxFor(m => m.BirthDayDay, new { @class = "form-control", placeholder = "DD", maxlength = "2", value = "" })
-                        </div>
-                        <div class="col-xs-4">
-                            @Html.TextBoxFor(m => m.BirthDayMonth, new { @class = "form-control", placeholder = "MM", maxlength = "2", value = "" })
-                        </div>
-                        <div class="col-xs-4">
-                            @Html.TextBoxFor(m => m.BirthDayYear, new { @class = "form-control", placeholder = "YYYY", maxlength = "4", value = "" })
-                        </div>
+                        @Html.ValidationMessageFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "E-mailadres", autocomplete = "off" })
                     </div>
                     <div class="form-group">
-                        <div class="col-xs-12">
-                            @Html.LabelFor(m => m.Email)
-                            @Html.ValidationMessageFor(m => m.Email)
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "E-mailadres" })
+                        <label>Geboortedatum:</label>
+                        @Html.ValidationMessageFor(m => m.BirthDay)
+                        @Html.ValidationMessageFor(m => m.BirthDayDay)
+                        @Html.ValidationMessageFor(m => m.BirthDayMonth)
+                        @Html.ValidationMessageFor(m => m.BirthDayYear)
+                        <div class="input-group">
+                        <div class="col-md-4 birthday-day">
+                            @Html.TextBoxFor(m => m.BirthDayDay, new { @class = "form-control", placeholder = "DD", maxlength = "2", value = "", autocomplete = "off" })
                         </div>
+                        <div class="col-md-4 birthday-month">
+                            @Html.TextBoxFor(m => m.BirthDayMonth, new { @class = "form-control", placeholder = "MM", maxlength = "2", value = "", autocomplete = "off" })
+                        </div>
+                        <div class="col-md-4 birthday-year">
+                            @Html.TextBoxFor(m => m.BirthDayYear, new { @class = "form-control", placeholder = "YYYY", maxlength = "4", value = "", autocomplete = "off" })
+                        </div>
+                            </div>
                     </div>
+                         <hr />
                     <div class="form-group">
-                        <div class="col-xs-12">
-                            @Html.LabelFor(m => m.Password)
                             @Html.ValidationMessageFor(m => m.Password)
                             @Html.ValidationMessageFor(m => m.ConfirmPassword)
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Wachtwoord" })
-                        </div>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Wachtwoord" })                 
                     </div>
                     <div class="form-group">
-                        <div class="col-xs-12">
                             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Herhaal wachtwoord" })
-                        </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" class="btn btn-default" value="Register" />
+                            <input type="submit" class="reg-btn" value="Registreer" />
+                    </div>
+                    <div class="form-group">
+                        <div class="footer-nav-link special">
+                            @Html.ActionLink("Terug naar login", "Login", "Account")
                         </div>
                     </div>
                 }
             </div>
         </div>
     </div>
+        </div>
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
     }

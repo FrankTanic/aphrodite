@@ -13,6 +13,7 @@ namespace Aphrodite.Front.Models
         public string BirthDay { get; set; }
         public Gender Gender { get; set; }
         public SexualPreference SexualPreference { get; set; }
+        public int LeftyFlip { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
