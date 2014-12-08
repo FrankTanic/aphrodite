@@ -45,11 +45,8 @@ namespace Aphrodite.Front.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : "";
+            ViewBag.StatusMessage = GetErrorMessage(message);
+
             var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             ViewBag.currentUser = manager.FindById(User.Identity.GetUserId());
             var managerFull = manager.FindById(User.Identity.GetUserId());
@@ -373,10 +370,8 @@ namespace Aphrodite.Front.Controllers
         // GET: /Manage/ManageLogins
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : "";
+            ViewBag.StatusMessage = GetErrorMessage(message);
+
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
             {
@@ -459,6 +454,41 @@ namespace Aphrodite.Front.Controllers
                 return user.PhoneNumber != null;
             }
             return false;
+        }
+
+        private string GetErrorMessage(ManageMessageId? message)
+        {
+            if (message == null)
+            {
+                return String.Empty;
+            }
+
+            switch (message)
+            {
+                case ManageMessageId.AddPhoneSuccess:
+                    return "Met succes een telefoon toegevoegd. Hoera.";
+
+                case ManageMessageId.ChangePasswordSuccess:
+                    return "Joepie voor het wijzigen van het wachtwoord.";
+
+                case ManageMessageId.Error:
+                    return "Foutje, hoor.";
+
+                case ManageMessageId.RemoveLoginSuccess:
+                    return "Het succesvolle inloggen is verwijderd.";
+
+                case ManageMessageId.RemovePhoneSuccess:
+                    return "Het telefoonsucces is verwijderd.";
+
+                case ManageMessageId.SetPasswordSuccess:
+                    return "Wachtwoord is gezet.";
+
+                case ManageMessageId.SetTwoFactorSuccess:
+                    return "Twee factoren zijn goed gegaan.";
+
+                default:
+                    return "Ik geef het op.";
+            }
         }
 
         public enum ManageMessageId
