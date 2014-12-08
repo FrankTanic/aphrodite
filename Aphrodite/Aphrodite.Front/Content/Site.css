@@ -241,6 +241,11 @@ h2, h3, h4 {
     background-color: #212121;
 }
 
+.photosize {
+    width: 320px;
+    height: 320px;
+}
+
 a.edit-link {
     display: block;
     margin-top: 10px;

@@ -55,6 +55,9 @@ namespace Aphrodite.Front.Controllers
             var managerFull = manager.FindById(User.Identity.GetUserId());
             DateTime managerDate =  Convert.ToDateTime(managerFull.BirthDay);
             ViewBag.Date = managerDate.ToString("D", CultureInfo.CreateSpecificCulture("en-US"));
+            String UID = User.Identity.GetUserId();
+            var photos = db.Photo.Where(x => x.UserID == UID).FirstOrDefault();
+            ViewBag.Photofile = "~/Content/Upload/" + photos.File;
             var model = new IndexViewModel
             {       
    
