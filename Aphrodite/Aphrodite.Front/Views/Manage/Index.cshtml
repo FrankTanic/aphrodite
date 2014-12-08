@@ -6,37 +6,6 @@
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
-<p>@TempData["Upload_message"]</p>
-<div>
-    <hr />
-    @using (Html.BeginForm("Upload", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
-    {
-        <label for="file">Filename:</label>
-        <input type="file" name="file" id="file" />
-
-        <input type="submit" />
-    }
-
-    <dl class="dl-horizontal">
-        <dt>Voornaam:</dt>
-        <dd>@ViewBag.currentUser.DisplayName</dd>
-        <dt>E-mailadres:</dt>
-        <dd>@Model.Email</dd>
-        <dt>Geslacht:</dt>
-        <dd>@ViewBag.currentUser.Gender</dd>
-        <dt>Geboortedatum</dt>
-        <dd>@ViewBag.currentUser.BirthDay</dd>
-        <dt>Locatie:</dt>
-        <dd>Not added yet.</dd>
-        <dd>
-            [
-                @Html.ActionLink("Change your password", "ChangePassword")
-            ]
-            [
-                @Html.ActionLink("Change your other Data", "ChangeData")
-            ]
-        </dd>
-    </dl>
 <div class="row">
     <div class="col-sm-4 nopadding">
         <div class="profile-image">
