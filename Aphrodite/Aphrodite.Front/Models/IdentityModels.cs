@@ -31,7 +31,7 @@ namespace Aphrodite.Front.Models
         {
         }
 
-        public DbSet<UserPhoto> Photo { get; set; }
+        public DbSet<UserPhoto> Photos { get; set; }
 
         public static ApplicationDbContext Create()
         {
