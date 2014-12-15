@@ -12,7 +12,7 @@ namespace Aphrodite.Front.Models
     public class ApplicationUser : IdentityUser
     {
         public string DisplayName { get; set; }
-        public string BirthDay { get; set; }
+        public DateTime BirthDay { get; set; }
         public Gender Gender { get; set; }
         public SexualPreference SexualPreference { get; set; }
         public int LeftyFlip { get; set; }
@@ -35,12 +35,8 @@ namespace Aphrodite.Front.Models
 
         }
 
-<<<<<<< HEAD
-        public DbSet<UserPhoto> Photo { get; set; }
-        public DbSet<MatchViewModel> Matches { get; set; }
-=======
         public DbSet<UserPhoto> Photos { get; set; }
->>>>>>> 7aaf08e67276ec3f63de02a53d95ea9cbcc60abb
+        public DbSet<MatchViewModel> Matches { get; set; }
 
         public static ApplicationDbContext Create()
         {
