@@ -1,0 +1,29 @@
+﻿<div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        @TempData["Match"]
+
+        @if(Model != null)
+        { 
+        <div id="profile-box">
+            <div class="profile-image">
+                <img src="@Url.Content(@ViewBag.PhotoFile)" class="photosize img-responsive" />
+            </div>
+            @Model.DisplayName
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    @Html.ActionLink("Niet Leuk", "Dislike", "Home", new { id = Model.ID }, null)
+                </div>
+                <div class="col-md-6">
+                    @Html.ActionLink("Leuk", "Like", "Home", new { id=Model.ID }, null)
+                </div>
+            </div>
+        </div>
+        }
+        else
+        {
+            <div>
+                <label>Er zijn geen nieuwe profielen gevonden</label>
+            </div>
+        }
+</div>
+</div>

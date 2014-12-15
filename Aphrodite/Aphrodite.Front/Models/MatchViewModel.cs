@@ -6,12 +6,11 @@ using System.Web;
 
 namespace Aphrodite.Front.Models
 {
-    public class UserPhoto
+    public class MatchViewModel
     {
         public int ID { get; set; }
-        public string UserID { get; set; }
-        public string File { get; set; }
-        public virtual ApplicationUser Photo { get; set; }
+        public string SenderId { get; set; }
+        public string ReceiverId { get; set; }
+        public int Approve { get; set; }
     }
-
 }

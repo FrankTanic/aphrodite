@@ -280,3 +280,11 @@ a.edit-link {
     color: #fff;
     background-color: #c23d3d;
 }
+
+/* Profile Page*/
+
+#profile-box {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    text-align: center;
+}
