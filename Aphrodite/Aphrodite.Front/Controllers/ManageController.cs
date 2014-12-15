@@ -43,36 +43,23 @@ namespace Aphrodite.Front.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public ActionResult Index(ManageMessageId? message)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : "";
-            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            ViewBag.currentUser = manager.FindById(User.Identity.GetUserId());
-            var managerFull = manager.FindById(User.Identity.GetUserId());
-            DateTime managerDate =  Convert.ToDateTime(managerFull.BirthDay);
-            ViewBag.Date = managerDate.ToString("D", CultureInfo.CreateSpecificCulture("en-US"));
-            String UID = User.Identity.GetUserId();
-            var photos = db.Photo.Where(x => x.UserID == UID).FirstOrDefault();
-            if (photos == null )
+            ViewBag.StatusMessage = TempData["UploadMessage"] ?? GetErrorMessage(message);
+
+            string userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            DateTime birthDay = Convert.ToDateTime(user.BirthDay);
+            var photo = db.Photos.Where(x => x.UserID == userId).FirstOrDefault();
+
+            var model = new IndexViewModel()
             {
-                ViewBag.Photofile = "~/Content/img/no-image.png";
-            }
-            else
-            {
-                ViewBag.Photofile = "~/Content/Upload/" + photos.File;
-            }
-            var model = new IndexViewModel
-            {       
-   
-                Email = UserManager.GetEmail(User.Identity.GetUserId()),
-                HasPassword = HasPassword(),
-                Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId()),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId()),
+                User = user,
+                Email = UserManager.GetEmail(userId),
+                BirthDay = birthDay.ToString("D", CultureInfo.CreateSpecificCulture("en-US")),
+                Photo = (photo == null) ? "~/Content/img/no-image.png" : "~/Content/Upload/" + photo.File
             };
+
             return View(model);
         }
 
@@ -113,52 +100,36 @@ namespace Aphrodite.Front.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase file)
         {
-            if (file != null && file.ContentLength > 0)
+            if (file == null || file.ContentLength == 0)
             {
-                string UID = User.Identity.GetUserId();
-
-                var count = db.Photo.Where(x => x.UserID == UID).Count();
-                int newCount = count++;
-
-                string ext = Path.GetExtension(file.FileName);
-                string[] accepted_extentions = new string[] { ".jpg", ".png", ".jpeg", ".gif", ".bmp" };
-                if (ext != null)
-                {
-                    foreach (string ae in accepted_extentions)
-                    {
-                        if (ae.Contains(ext))
-                        {
-                            var newFileName = User.Identity.GetUserId() + "_" + newCount + ext;
-                            var path = Path.Combine(Server.MapPath("~/Content/Upload"), newFileName);
-                            
-                            file.SaveAs(path);
-                            UserPhoto photo = new UserPhoto
-                            {
-                                UserID = UID,
-                                File = newFileName
-                            };
-                            
-                            db.Photo.Add(photo);
-                            db.SaveChanges();
-                            TempData["Upload_message"] = "Upload succeded^^";
-                        }
-                        else
-                        {
-                            TempData["Upload_message"] = "This picture format is not accepted";
-                        }
-                    }
-                    
-                }
-                else
-                {
-                    TempData["Upload_message"] = "The picture format is missing";
-                }
-            }
-            else
-            {
-                TempData["Upload_message"] = "You must choose a picture";
+                TempData["UploadMessage"] = "You must choose a picture.";
+                return RedirectToAction("Index");
             }
 
+            string extension = Path.GetExtension(file.FileName);
+            string[] acceptedExtensions = new string[] { ".jpg", ".png", ".jpeg", ".gif", ".bmp" };
+
+            if (!acceptedExtensions.Contains(extension))
+            {
+                TempData["UploadMessage"] = "This picture format is not accepted.";
+                return RedirectToAction("Index");
+            }
+
+            string fileId = Guid.NewGuid().ToString();
+            string fileName = String.Format("{0}.{1}", fileId, extension);
+            string path = Path.Combine(Server.MapPath("~/Content/Upload"), fileName);                            
+            file.SaveAs(path);
+
+            UserPhoto photo = new UserPhoto
+            {
+                UserID = User.Identity.GetUserId(),
+                File = fileName
+            };          
+            db.Photos.Add(photo);
+            db.SaveChanges();
+
+            TempData["UploadMessage"] = "Upload succeeded.";
+     
             return RedirectToAction("Index");
         }
 
@@ -373,10 +344,8 @@ namespace Aphrodite.Front.Controllers
         // GET: /Manage/ManageLogins
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : "";
+            ViewBag.StatusMessage = GetErrorMessage(message);
+
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
             {
@@ -459,6 +428,41 @@ namespace Aphrodite.Front.Controllers
                 return user.PhoneNumber != null;
             }
             return false;
+        }
+
+        private string GetErrorMessage(ManageMessageId? message)
+        {
+            if (message == null)
+            {
+                return String.Empty;
+            }
+
+            switch (message)
+            {
+                case ManageMessageId.AddPhoneSuccess:
+                    return "Met succes een telefoon toegevoegd. Hoera.";
+
+                case ManageMessageId.ChangePasswordSuccess:
+                    return "Joepie voor het wijzigen van het wachtwoord.";
+
+                case ManageMessageId.Error:
+                    return "Foutje, hoor.";
+
+                case ManageMessageId.RemoveLoginSuccess:
+                    return "Het succesvolle inloggen is verwijderd.";
+
+                case ManageMessageId.RemovePhoneSuccess:
+                    return "Het telefoonsucces is verwijderd.";
+
+                case ManageMessageId.SetPasswordSuccess:
+                    return "Wachtwoord is gezet.";
+
+                case ManageMessageId.SetTwoFactorSuccess:
+                    return "Twee factoren zijn goed gegaan.";
+
+                default:
+                    return "Ik geef het op.";
+            }
         }
 
         public enum ManageMessageId
