@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.Collections.Generic;
 
 namespace Aphrodite.Front.Models
 {
@@ -14,6 +16,7 @@ namespace Aphrodite.Front.Models
         public Gender Gender { get; set; }
         public SexualPreference SexualPreference { get; set; }
         public int LeftyFlip { get; set; }
+        public virtual ICollection<UserPhoto> Photo { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -29,9 +32,11 @@ namespace Aphrodite.Front.Models
         public ApplicationDbContext()
             : base("AphroditeContext", throwIfV1Schema: false)
         {
+
         }
 
         public DbSet<UserPhoto> Photo { get; set; }
+        public DbSet<MatchViewModel> Matches { get; set; }
 
         public static ApplicationDbContext Create()
         {
