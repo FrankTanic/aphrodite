@@ -20,8 +20,7 @@ namespace Aphrodite.Front.Controllers
             {
                 var UID = User.Identity.GetUserId();
                 var userProfile = db.Users.Where(x => x.Id == UID);
-                var photo = db.Photos.Where(x => x.UserID == UID).FirstOrDefault();
-                ViewBag.photo = (photo == null) ? "~/Content/img/no-image.png" : "~/Content/Upload/" + photo.File;
+
                 List<ProfileViewModel> profiles = new List<ProfileViewModel>();
 
 

@@ -254,11 +254,3 @@ a.edit-link {
     color: #fff;
     background-color: #c23d3d;
 }
-
-.avatar {
-    height: 50px;
-    width: 50px;
-    border: solid white 3px;
-    margin-top : auto;
-    margin-bottom : auto;
-}
