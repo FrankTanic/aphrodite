@@ -10,16 +10,18 @@
     <div class="col-sm-4 nopadding">
         <div class="profile-image">
             <img src="@Url.Content(@ViewBag.Photofile)" class="photosize" />
-        </div>
+           
+         </div>
+
     </div>
     <div class="col-sm-8">
         <div class="profile-edit-info">
             @using (Html.BeginForm("Upload", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
             {
                 <label for="file">Filename:</label>
-                <input type="file" name="file" id="file" />
+    <input type="file" name="file" id="file" />
 
-                <input type="submit" />
+    <input class="btn btn-default" type="submit" />
             }
         </div>
     </div>

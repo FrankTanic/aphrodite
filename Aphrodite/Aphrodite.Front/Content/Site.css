@@ -239,13 +239,39 @@ h2, h3, h4 {
     width: 320px;
     height: 320px;
     background-color: rgba(255,255,255,0);
+    position:relative;
+    overflow:hidden;
+
 }
 
 .photosize {
     width: 320px;
     height: 320px;
 }
+.profile-pic-upload{
+    position: absolute;
+    top: -74px;
+}
+input.profile-pic-upload-select[type="file"]{
+    width: 320px!important;
+    height: 342px!important;
+    position: absolute;
+    top: 52px;
+    background: rgba(0,0,0,0) url('/Content/img/upload_image.png') 0px 320px no-repeat!important;
+    border: none;
 
+}
+.profile-pic-upload-select[type="file"] input:hover {
+    /*background-color: rgba(255,255,255,0.5);*/
+    background-position: 0px 0px;
+    }
+.profile-pic-upload-select[type="file"]:active{
+    border:none;
+}
+.profile-pic-upload-submit{
+    position: absolute;
+    top: 360px;
+}
 a.edit-link {
     display: block;
     margin-top: 10px;
