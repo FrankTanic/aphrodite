@@ -18,10 +18,6 @@ namespace Aphrodite.Front.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public int ReceivedApprove;
-        public int SentApprove;
-
-
         public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
@@ -31,19 +27,47 @@ namespace Aphrodite.Front.Controllers
                 string userId = User.Identity.GetUserId();
                 var prefQuery = db.Users.Where(x => x.Id == userId).Single();
 
+                DateTime birthday = prefQuery.BirthDay;
+
+                var years = BirthdayYears(birthday, DateTime.Now);
+
                 ProfileViewModel userPrefProfile = new ProfileViewModel
                 {
                     ID = prefQuery.Id,
                     SexualPreference = prefQuery.SexualPreference,
                 };
 
-                var profileQuery = (from u in db.Users.Where(x => x.Id != userId && x.SexualPreference != userPrefProfile.SexualPreference)
-                                    join m in db.Matches
-                                        on u.Id equals m.ReceiverId into um
-     
-                                    where !um.Any(x => x.SenderId == userId)
-                                    select u).FirstOrDefault();
+                if(prefQuery.Gender == Gender.Man)
+                {
+                    if(prefQuery.SexualPreference == SexualPreference.Man)
+                    {
+                        prefQuery.SexualPreference = SexualPreference.Man;
+                    }
+                    else
+                    {
+                        prefQuery.Gender = Gender.Vrouw;
+                        prefQuery.SexualPreference = SexualPreference.Man;
+                    }
+                }
+                else
+                {
+                    if(prefQuery.SexualPreference == SexualPreference.Vrouw)
+                    {
+                        prefQuery.SexualPreference = SexualPreference.Vrouw;
+                    }
+                    else
+                    {
+                        prefQuery.Gender = Gender.Man;
+                        prefQuery.SexualPreference = SexualPreference.Vrouw;
+                    }
+                }
 
+                    var profileQuery = (from u in db.Users.Where(x => x.Id != userId && x.Gender == prefQuery.Gender && x.SexualPreference == prefQuery.SexualPreference)
+                                        join m in db.Matches
+                                            on u.Id equals m.ReceiverId into um
+
+                                        where !um.Any(x => x.SenderId == userId)
+                                        select u).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
 
                 if (profileQuery != null)
                 {
@@ -51,11 +75,10 @@ namespace Aphrodite.Front.Controllers
                     {
                         ID = profileQuery.Id,
                         DisplayName = profileQuery.DisplayName,
-
+                        Years = years
                     };
 
-
-                    var photoQuery = (from p in db.Photo
+                    var photoQuery = (from p in db.Photos
                                       where p.UserID == profileQuery.Id
                                       select p).SingleOrDefault();
 
@@ -122,8 +145,13 @@ namespace Aphrodite.Front.Controllers
             return RedirectToAction("Index");
 
         }
-       
-  
 
+        public int BirthdayYears(DateTime birthday, DateTime now)
+        {
+            int age = now.Year - birthday.Year;
+
+            if (now.Month < birthday.Month || (now.Month == birthday.Month && now.Day < birthday.Day)) age--;
+            return age;
+        }
     }
 }
