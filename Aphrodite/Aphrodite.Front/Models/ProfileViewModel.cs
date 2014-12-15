@@ -13,6 +13,7 @@ namespace Aphrodite.Front.Models
         public string ID { get; set; }
         public string DisplayName { get; set; }
         public DateTime Birthday { get; set; }
+        public int Years { get; set; }
         public Gender Gender { get; set; }
         public SexualPreference SexualPreference { get; set; }
         public string Photo { get; set; }

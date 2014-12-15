@@ -95,7 +95,7 @@ namespace Aphrodite.Front.Models
         [Required]
         [Display(Name = "Geboortedatum")]
         [CustomValidation(typeof(ValidationCheck), "IsEigtheenPlus")]
-        public DateTime? BirthDay
+        public DateTime BirthDay
         {
             get
             {

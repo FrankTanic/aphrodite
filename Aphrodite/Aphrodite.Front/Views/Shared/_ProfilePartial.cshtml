@@ -8,7 +8,8 @@
             <div class="profile-image">
                 <img src="@Url.Content(@ViewBag.PhotoFile)" class="photosize img-responsive" />
             </div>
-            @Model.DisplayName
+            <p>@Model.DisplayName
+            @Model.Years jaar oud</p>
             <div class="col-md-12">
                 <div class="col-md-6">
                     @Html.ActionLink("Niet Leuk", "Dislike", "Home", new { id = Model.ID }, null)
