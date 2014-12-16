@@ -1,4 +1,5 @@
-﻿<div class="row">
+﻿@Scripts.Render("~/Scripts/Facedate.js")
+<div class="row">
     <div class="col-md-4 col-md-offset-4">
         @TempData["Match"]
 
@@ -6,15 +7,15 @@
         { 
         <div id="profile-box">
             <div class="profile-image">
-                <img src="@Url.Content(@ViewBag.PhotoFile)" class="photosize img-responsive" />
+                <img id="facedate_Image" src="@Url.Content(@ViewBag.PhotoFile)" class="photosize img-responsive" />
             </div>
             @Model.DisplayName
-            <div class="col-md-12">
+            <div class="col-md-12 like_box">
                 <div class="col-md-6">
-                    @Html.ActionLink("Niet Leuk", "Dislike", "Home", new { id = Model.ID }, null)
+                    @Html.ActionLink(" ", "Dislike", "Home", new { id = Model.ID }, new { id = "facedate_Dislike" })
                 </div>
                 <div class="col-md-6">
-                    @Html.ActionLink("Leuk", "Like", "Home", new { id=Model.ID }, null)
+                    @Html.ActionLink(" ", "Like", "Home", new { id = Model.ID }, new { id = "facedate_Like" })
                 </div>
             </div>
         </div>

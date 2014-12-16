@@ -55,7 +55,7 @@ namespace Aphrodite.Front.Controllers
                     };
 
 
-                    var photoQuery = (from p in db.Photo
+                    var photoQuery = (from p in db.Photos
                                       where p.UserID == profileQuery.Id
                                       select p).SingleOrDefault();
 
