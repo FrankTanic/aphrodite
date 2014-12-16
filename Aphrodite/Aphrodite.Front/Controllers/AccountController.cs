@@ -9,7 +9,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Aphrodite.Front.Models;
-using Aphrodite.Business;
 
 namespace Aphrodite.Front.Controllers
 {
@@ -149,6 +148,7 @@ namespace Aphrodite.Front.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
@@ -156,7 +156,7 @@ namespace Aphrodite.Front.Controllers
                     DisplayName = model.DisplayName,
                     Gender = model.Gender,
                     SexualPreference = model.SexualPreference,
-                    BirthDay = model.BirthDay.ToString(),
+                    BirthDay = model.BirthDay,
                     LeftyFlip = 1
                 };
 
@@ -178,21 +178,6 @@ namespace Aphrodite.Front.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
-        }
-
-        public bool IsUniqueEmail(string email)
-        {
-            var emailaddress = UserManager.GetEmail(email);
-
-            if(emailaddress != email)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-
         }
 
         //

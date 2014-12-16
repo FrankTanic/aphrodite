@@ -19,4 +19,5 @@ $(function () {
 function rate(rating){
     var rating = rating;    
     alert(rating);
+
 }

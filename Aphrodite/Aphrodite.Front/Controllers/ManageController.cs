@@ -107,7 +107,7 @@ namespace Aphrodite.Front.Controllers
             }
 
             string extension = Path.GetExtension(file.FileName);
-            string[] acceptedExtensions = new string[] { ".jpg", ".png", ".jpeg", ".gif", ".bmp" };
+            string[] acceptedExtensions = new string[] { ".jpg", ".png", ".jpeg", ".jpe", ".gif", ".bmp" };
 
             if (!acceptedExtensions.Contains(extension))
             {

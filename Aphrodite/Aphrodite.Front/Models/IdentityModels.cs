@@ -12,7 +12,7 @@ namespace Aphrodite.Front.Models
     public class ApplicationUser : IdentityUser
     {
         public string DisplayName { get; set; }
-        public string BirthDay { get; set; }
+        public DateTime BirthDay { get; set; }
         public Gender Gender { get; set; }
         public SexualPreference SexualPreference { get; set; }
         public int LeftyFlip { get; set; }

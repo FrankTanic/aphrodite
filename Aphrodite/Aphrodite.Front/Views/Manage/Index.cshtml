@@ -5,15 +5,20 @@
 
 <h2>@ViewBag.Title</h2>
 
-<p class="text-success">@ViewBag.StatusMessage</p>
+@if (ViewBag.StatusMessage != null)
+{
+    <p class="text-success">@ViewBag.StatusMessage</p>
+    
+}
 
 <div class="row">
     <div class="col-sm-4 nopadding">
         <div class="profile-image">
             <img src="@Url.Content(Model.Photo)" class="photosize" />
         </div>
-
     </div>
+</div>
+
     <div class="col-sm-8">
         <div class="profile-edit-info">
             @using (Html.BeginForm("Upload", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
@@ -25,7 +30,7 @@
             }
         </div>
     </div>
-</div>
+
 
 <div class="row">
 <div class="block">

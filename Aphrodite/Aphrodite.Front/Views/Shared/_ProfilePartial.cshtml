@@ -9,8 +9,13 @@
             <div class="profile-image">
                 <img id="facedate_Image" src="@Url.Content(@ViewBag.PhotoFile)" class="photosize img-responsive" />
             </div>
+
             @Model.DisplayName
             <div class="col-md-12 like_box">
+
+            <p>@Model.DisplayName
+            @Model.Years jaar oud</p>
+            <div class="col-md-12">
                 <div class="col-md-6">
                     @Html.ActionLink(" ", "Dislike", "Home", new { id = Model.ID }, new { id = "facedate_Dislike" })
                 </div>
