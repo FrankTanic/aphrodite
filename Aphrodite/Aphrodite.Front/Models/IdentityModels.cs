@@ -37,8 +37,6 @@ namespace Aphrodite.Front.Models
 
         public DbSet<MatchViewModel> Matches { get; set; }
         public DbSet<UserPhoto> Photos { get; set; }
-        public DbSet<UserPhoto> Photos { get; set; }
-        public DbSet<MatchViewModel> Matches { get; set; }
 
         public static ApplicationDbContext Create()
         {

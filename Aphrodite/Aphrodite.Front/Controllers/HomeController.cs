@@ -78,10 +78,6 @@ namespace Aphrodite.Front.Controllers
                         Years = years
                     };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> c9e8b43c6f8ee24ab1027bf0e0ab5e41af46a3ae
                     var photoQuery = (from p in db.Photos
                                       where p.UserID == profileQuery.Id
                                       select p).SingleOrDefault();
