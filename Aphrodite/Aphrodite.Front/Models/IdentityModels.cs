@@ -32,11 +32,18 @@ namespace Aphrodite.Front.Models
         public ApplicationDbContext()
             : base("AphroditeContext", throwIfV1Schema: false)
         {
-
+            
         }
 
         public DbSet<MatchViewModel> Matches { get; set; }
         public DbSet<UserPhoto> Photos { get; set; }
+
+        protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ApplicationUser>().ToTable("FaceDateUsers");
+        }
 
         public static ApplicationDbContext Create()
         {
