@@ -290,6 +290,24 @@ a.edit-link {
     text-align: center;
 }
 
+.modal-dialog {
+    width: 95%;
+    height: 95%;
+    border-radius: 3px;
+    box-shadow: rgba(0,0,0,0) 0px 0px inset;
+}
+
+.modal-header {
+    background-color: #ccc;
+}
+
+.modal-navigation {
+    position: relative;
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+}
+
+
 /* Facedate main*/
 
 #facedate_Dislike{
