@@ -95,14 +95,20 @@ namespace Aphrodite.Front.Models
 
     public enum Gender
     {
-        Man = 0,
-        Vrouw = 1
+        [Display(Name = "Man")]
+        Male = 0,
+
+        [Display(Name = "Vrouw")]
+        Female = 1
     }
 
     public enum SexualPreference
     {
-        Man = 1,
-        Vrouw = 0
+        [Display(Name = "Man")]
+        Male = 1,
+
+        [Display(Name = "Vrouw")]
+        Female = 0
     }
 
     public class ValidationCheck

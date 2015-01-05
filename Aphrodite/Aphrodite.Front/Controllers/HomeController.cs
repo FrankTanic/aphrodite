@@ -33,28 +33,28 @@ namespace Aphrodite.Front.Controllers
                     SexualPreference = prefQuery.SexualPreference,
                 };
 
-                if(prefQuery.Gender == Gender.Man)
+                if(prefQuery.Gender == Gender.Male)
                 {
-                    if(prefQuery.SexualPreference == SexualPreference.Man)
+                    if(prefQuery.SexualPreference == SexualPreference.Male)
                     {
-                        prefQuery.SexualPreference = SexualPreference.Man;
+                        prefQuery.SexualPreference = SexualPreference.Male;
                     }
                     else
                     {
-                        prefQuery.Gender = Gender.Vrouw;
-                        prefQuery.SexualPreference = SexualPreference.Man;
+                        prefQuery.Gender = Gender.Female;
+                        prefQuery.SexualPreference = SexualPreference.Male;
                     }
                 }
                 else
                 {
-                    if(prefQuery.SexualPreference == SexualPreference.Vrouw)
+                    if(prefQuery.SexualPreference == SexualPreference.Female)
                     {
-                        prefQuery.SexualPreference = SexualPreference.Vrouw;
+                        prefQuery.SexualPreference = SexualPreference.Female;
                     }
                     else
                     {
-                        prefQuery.Gender = Gender.Man;
-                        prefQuery.SexualPreference = SexualPreference.Vrouw;
+                        prefQuery.Gender = Gender.Male;
+                        prefQuery.SexualPreference = SexualPreference.Female;
                     }
                 }
 
