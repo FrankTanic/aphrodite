@@ -14,11 +14,13 @@
 <div class="row">
     <div class="col-sm-4 nopadding">
         <div class="profile-image">
+
             <a href="#" data-toggle="modal" data-target="#facedatemodal">
                 <img src="@Url.Content(Model.Photo)" class="photosize" />  
              </a>
          </div>
         </div>
+</div>
 
     <div class="modal fade" id="facedatemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -38,11 +40,9 @@
                         {
                             <label for="file">Filename:</label>
                             <input type="file" name="file" id="file" />
-
-                            <input class="btn btn-default" type="submit" />
                         }
-                    </div>
-                </div>
+        </div>
+    </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Save changes</button>
@@ -51,7 +51,6 @@
         </div>
     </div>
 
-    </div>
 
 <div class="row">
 <div class="block">
