@@ -27,10 +27,6 @@ namespace Aphrodite.Front.Controllers
                 string userId = User.Identity.GetUserId();
                 var prefQuery = db.Users.Where(x => x.Id == userId).Single();
 
-                DateTime birthday = prefQuery.BirthDay;
-
-                var years = BirthdayYears(birthday, DateTime.Now);
-
                 ProfileViewModel userPrefProfile = new ProfileViewModel
                 {
                     ID = prefQuery.Id,
@@ -71,6 +67,10 @@ namespace Aphrodite.Front.Controllers
 
                 if (profileQuery != null)
                 {
+                    DateTime birthday = profileQuery.BirthDay;
+
+                    var years = BirthdayYears(birthday, DateTime.Now);
+
                     ProfileViewModel userProfile = new ProfileViewModel
                     {
                         ID = profileQuery.Id,
