@@ -23,78 +23,38 @@ namespace Aphrodite.Front.Controllers
         {
             // Get your preferences
             string userId = User.Identity.GetUserId();
-            var prefQuery = db.Users.Where(x => x.Id == userId).Single();
+            var user = db.Users.Where(x => x.Id == userId).Single();
 
-            ProfileViewModel userPrefProfile = new ProfileViewModel
-            {
-                ID = prefQuery.Id,
-                SexualPreference = prefQuery.SexualPreference,
-            };
+            var gender = GetPartnerGender(user);
+            var preference = GetPartnerSexualPreference(user);
+            var partner = FindPartner(gender, preference, userId);
 
-            if(prefQuery.Gender == Gender.Male)
-            {
-                if(prefQuery.SexualPreference == SexualPreference.Male)
-                {
-                    prefQuery.SexualPreference = SexualPreference.Male;
-                }
-                else
-                {
-                    prefQuery.Gender = Gender.Female;
-                    prefQuery.SexualPreference = SexualPreference.Male;
-                }
-            }
-            else
-            {
-                if(prefQuery.SexualPreference == SexualPreference.Female)
-                {
-                    prefQuery.SexualPreference = SexualPreference.Female;
-                }
-                else
-                {
-                    prefQuery.Gender = Gender.Male;
-                    prefQuery.SexualPreference = SexualPreference.Female;
-                }
-            }
-
-                var profileQuery = (from u in db.Users.Where(x => x.Id != userId && x.Gender == prefQuery.Gender && x.SexualPreference == prefQuery.SexualPreference)
-                                    join m in db.Matches
-                                        on u.Id equals m.ReceiverId into um
-
-                                    where !um.Any(x => x.SenderId == userId)
-                                    select u).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-
-            if (profileQuery != null)
-            {
-                DateTime birthday = profileQuery.BirthDay;
-
-                var years = BirthdayYears(birthday, DateTime.Now);
-
-                ProfileViewModel userProfile = new ProfileViewModel
-                {
-                    ID = profileQuery.Id,
-                    DisplayName = profileQuery.DisplayName,
-                    Years = years
-                };
-
-                var photoQuery = (from p in db.Photos
-                                    where p.UserID == profileQuery.Id
-                                    select p).SingleOrDefault();
-
-                if (photoQuery == null)
-                {
-                    ViewBag.PhotoFile = "~/Content/img/no-image.png";
-                }
-                else
-                {
-                    ViewBag.PhotoFile = "~/Content/Upload/" + photoQuery.File;
-                }
-
-                return View(userProfile);
-            }
-            else
+            if (partner == null)
             {
                 return View();
             }
+           
+            ProfileViewModel userProfile = new ProfileViewModel
+            {
+                ID = partner.Id,
+                DisplayName = partner.DisplayName,
+                Years = GetAge(partner.BirthDay)
+            };
+
+            var photoQuery = (from p in db.Photos
+                                where p.UserID == partner.Id
+                                select p).SingleOrDefault();
+
+            if (photoQuery == null)
+            {
+                ViewBag.PhotoFile = "~/Content/img/no-image.png";
+            }
+            else
+            {
+                ViewBag.PhotoFile = "~/Content/Upload/" + photoQuery.File;
+            }
+
+            return View(userProfile);
         }
 
 
@@ -139,12 +99,32 @@ namespace Aphrodite.Front.Controllers
 
         }
 
-        public int BirthdayYears(DateTime birthday, DateTime now)
+        public int GetAge(DateTime birthday)
         {
-            int age = now.Year - birthday.Year;
+            int age = DateTime.Now.Year - birthday.Year;
 
-            if (now.Month < birthday.Month || (now.Month == birthday.Month && now.Day < birthday.Day)) age--;
+            if (DateTime.Now.Month < birthday.Month || (DateTime.Now.Month == birthday.Month && DateTime.Now.Day < birthday.Day)) age--;
             return age;
+        }
+
+        private Gender GetPartnerGender(ApplicationUser user)
+        {
+            return user.SexualPreference == SexualPreference.Male ? Gender.Male : Gender.Female;
+        }
+
+        private SexualPreference GetPartnerSexualPreference(ApplicationUser user)
+        {
+            return user.Gender == Gender.Male ? SexualPreference.Male : SexualPreference.Female;
+        }
+
+        private ApplicationUser FindPartner(Gender gender, SexualPreference preference, string userId)
+        {
+            return (from u in db.Users.Where(x => x.Id != userId && x.Gender == gender && x.SexualPreference == preference)
+                    join m in db.Matches
+                        on u.Id equals m.ReceiverId into um
+
+                    where !um.Any(x => x.SenderId == userId)
+                    select u).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
         }
     }
 }
