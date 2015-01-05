@@ -14,93 +14,86 @@ using System.Data.Entity.Infrastructure;
 
 namespace Aphrodite.Front.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         public ActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
+            // Get your preferences
+            string userId = User.Identity.GetUserId();
+            var prefQuery = db.Users.Where(x => x.Id == userId).Single();
+
+            ProfileViewModel userPrefProfile = new ProfileViewModel
             {
+                ID = prefQuery.Id,
+                SexualPreference = prefQuery.SexualPreference,
+            };
 
-                // Get your preferences
-                string userId = User.Identity.GetUserId();
-                var prefQuery = db.Users.Where(x => x.Id == userId).Single();
-
-                ProfileViewModel userPrefProfile = new ProfileViewModel
+            if(prefQuery.Gender == Gender.Male)
+            {
+                if(prefQuery.SexualPreference == SexualPreference.Male)
                 {
-                    ID = prefQuery.Id,
-                    SexualPreference = prefQuery.SexualPreference,
-                };
-
-                if(prefQuery.Gender == Gender.Male)
-                {
-                    if(prefQuery.SexualPreference == SexualPreference.Male)
-                    {
-                        prefQuery.SexualPreference = SexualPreference.Male;
-                    }
-                    else
-                    {
-                        prefQuery.Gender = Gender.Female;
-                        prefQuery.SexualPreference = SexualPreference.Male;
-                    }
+                    prefQuery.SexualPreference = SexualPreference.Male;
                 }
                 else
                 {
-                    if(prefQuery.SexualPreference == SexualPreference.Female)
-                    {
-                        prefQuery.SexualPreference = SexualPreference.Female;
-                    }
-                    else
-                    {
-                        prefQuery.Gender = Gender.Male;
-                        prefQuery.SexualPreference = SexualPreference.Female;
-                    }
-                }
-
-                    var profileQuery = (from u in db.Users.Where(x => x.Id != userId && x.Gender == prefQuery.Gender && x.SexualPreference == prefQuery.SexualPreference)
-                                        join m in db.Matches
-                                            on u.Id equals m.ReceiverId into um
-
-                                        where !um.Any(x => x.SenderId == userId)
-                                        select u).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-
-                if (profileQuery != null)
-                {
-                    DateTime birthday = profileQuery.BirthDay;
-
-                    var years = BirthdayYears(birthday, DateTime.Now);
-
-                    ProfileViewModel userProfile = new ProfileViewModel
-                    {
-                        ID = profileQuery.Id,
-                        DisplayName = profileQuery.DisplayName,
-                        Years = years
-                    };
-
-                    var photoQuery = (from p in db.Photos
-                                      where p.UserID == profileQuery.Id
-                                      select p).SingleOrDefault();
-
-                    if (photoQuery == null)
-                    {
-                        ViewBag.PhotoFile = "~/Content/img/no-image.png";
-                    }
-                    else
-                    {
-                        ViewBag.PhotoFile = "~/Content/Upload/" + photoQuery.File;
-                    }
-
-                    return View(userProfile);
-                }
-                else
-                {
-                    return View();
+                    prefQuery.Gender = Gender.Female;
+                    prefQuery.SexualPreference = SexualPreference.Male;
                 }
             }
             else
             {
-                return RedirectToAction("Login", "Account");
+                if(prefQuery.SexualPreference == SexualPreference.Female)
+                {
+                    prefQuery.SexualPreference = SexualPreference.Female;
+                }
+                else
+                {
+                    prefQuery.Gender = Gender.Male;
+                    prefQuery.SexualPreference = SexualPreference.Female;
+                }
+            }
+
+                var profileQuery = (from u in db.Users.Where(x => x.Id != userId && x.Gender == prefQuery.Gender && x.SexualPreference == prefQuery.SexualPreference)
+                                    join m in db.Matches
+                                        on u.Id equals m.ReceiverId into um
+
+                                    where !um.Any(x => x.SenderId == userId)
+                                    select u).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+
+            if (profileQuery != null)
+            {
+                DateTime birthday = profileQuery.BirthDay;
+
+                var years = BirthdayYears(birthday, DateTime.Now);
+
+                ProfileViewModel userProfile = new ProfileViewModel
+                {
+                    ID = profileQuery.Id,
+                    DisplayName = profileQuery.DisplayName,
+                    Years = years
+                };
+
+                var photoQuery = (from p in db.Photos
+                                    where p.UserID == profileQuery.Id
+                                    select p).SingleOrDefault();
+
+                if (photoQuery == null)
+                {
+                    ViewBag.PhotoFile = "~/Content/img/no-image.png";
+                }
+                else
+                {
+                    ViewBag.PhotoFile = "~/Content/Upload/" + photoQuery.File;
+                }
+
+                return View(userProfile);
+            }
+            else
+            {
+                return View();
             }
         }
 
