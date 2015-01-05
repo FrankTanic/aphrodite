@@ -19,6 +19,32 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
+            @Html.LabelFor(model => model.DisplayName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.DisplayName, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Geboortedatum:</label>
+            @Html.ValidationMessageFor(m => m.BirthDay)
+            @Html.ValidationMessageFor(m => m.BirthDayDay)
+            @Html.ValidationMessageFor(m => m.BirthDayMonth)
+            @Html.ValidationMessageFor(m => m.BirthDayYear)
+            <div class="input-group">
+                <div class="col-md-4 birthday-day">
+                    @Html.TextBoxFor(m => m.BirthDayDay, new { @class = "form-control", placeholder = "DD", maxlength = "2", value = "", autocomplete = "off" })
+                </div>
+                <div class="col-md-4 birthday-month">
+                    @Html.TextBoxFor(m => m.BirthDayMonth, new { @class = "form-control", placeholder = "MM", maxlength = "2", value = "", autocomplete = "off" })
+                </div>
+                <div class="col-md-4 birthday-year">
+                    @Html.TextBoxFor(m => m.BirthDayYear, new { @class = "form-control", placeholder = "YYYY", maxlength = "4", value = "", autocomplete = "off" })
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="form-group">
             @Html.LabelFor(model => model.SexualPreference, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EnumDropDownListFor(model => model.SexualPreference, htmlAttributes: new { @class = "form-control" })
@@ -37,7 +63,6 @@
                 <input type="submit" value="ChangeData" class="btn btn-default" />
             </div>
         </div>
-    </div>
 }
 
 <div>
