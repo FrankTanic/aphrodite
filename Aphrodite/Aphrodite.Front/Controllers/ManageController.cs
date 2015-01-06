@@ -69,9 +69,16 @@ namespace Aphrodite.Front.Controllers
         {
             string Id = User.Identity.GetUserId();
             var user = db.Users.Where(x => x.Id == Id).Single();
+            DateTime dateAndTime = user.BirthDay;
+            int year = dateAndTime.Year;
+            int month = dateAndTime.Month;
+            int day = dateAndTime.Day;
 
             EditViewModel edit = new EditViewModel
             {
+                BirthDayDay = day,
+                BirthDayMonth = month,
+                BirthDayYear = year,
                 DisplayName = user.DisplayName,
                 Email = user.Email
             };
@@ -86,7 +93,9 @@ namespace Aphrodite.Front.Controllers
         {
             string UID = User.Identity.GetUserId();
             var user = db.Users.Where(x => x.Id == UID).Single();
-
+            DateTime Birthday = new DateTime(model.BirthDayYear, model.BirthDayMonth, model.BirthDayDay);
+            user.BirthDay = Birthday;
+            user.SexualPreference = model.SexualPreference;
             user.Gender = model.Gender;
             user.DisplayName = model.DisplayName;
             user.Email = model.Email;

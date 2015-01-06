@@ -7,12 +7,17 @@
        margin-right : 50px;
    }
 </style>
-<h2>ChangeData</h2>
+<h2>User Settings!</h2>
 
 
 @using (Html.BeginForm("ChangeData", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
+    
+            @Html.ValidationMessageFor(m => m.BirthDay)
+            @Html.ValidationMessageFor(m => m.BirthDayDay)
+            @Html.ValidationMessageFor(m => m.BirthDayMonth)
+            @Html.ValidationMessageFor(m => m.BirthDayYear)
     
     <div class="form-horizontal">
         <h4>ApplicationUser</h4>
@@ -27,19 +32,15 @@
         </div>
         <div class="form-group">
             <label>Geboortedatum:</label>
-            @Html.ValidationMessageFor(m => m.BirthDay)
-            @Html.ValidationMessageFor(m => m.BirthDayDay)
-            @Html.ValidationMessageFor(m => m.BirthDayMonth)
-            @Html.ValidationMessageFor(m => m.BirthDayYear)
             <div class="input-group">
                 <div class="col-md-4 birthday-day">
-                    @Html.TextBoxFor(m => m.BirthDayDay, new { @class = "form-control", placeholder = "DD", maxlength = "2", value = "", autocomplete = "off" })
+                    @Html.TextBoxFor(model => model.BirthDayDay, new { @class = "form-control", placeholder = Model.BirthDayDay, maxlength = "2", value = "", autocomplete = "off" })
                 </div>
                 <div class="col-md-4 birthday-month">
-                    @Html.TextBoxFor(m => m.BirthDayMonth, new { @class = "form-control", placeholder = "MM", maxlength = "2", value = "", autocomplete = "off" })
+                    @Html.TextBoxFor(model => model.BirthDayMonth, new { @class = "form-control", placeholder = Model.BirthDayMonth, maxlength = "2", value = "", autocomplete = "off" })
                 </div>
                 <div class="col-md-4 birthday-year">
-                    @Html.TextBoxFor(m => m.BirthDayYear, new { @class = "form-control", placeholder = "YYYY", maxlength = "4", value = "", autocomplete = "off" })
+                    @Html.TextBoxFor(model => model.BirthDayYear, new { @class = "form-control", placeholder = Model.BirthDayYear, maxlength = "4", value = "", autocomplete = "off" })
                 </div>
             </div>
         </div>
