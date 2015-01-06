@@ -3,5 +3,37 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Matches</h2>
 
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Firstname</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.ReceiverId</td>
+                </tr>
+            }
+            <tr>
+                <td>1</td>
+                <td>@ViewBag.Partner</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Debbie</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Sexy!</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
