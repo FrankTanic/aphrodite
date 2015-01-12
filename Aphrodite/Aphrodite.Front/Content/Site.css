@@ -25,10 +25,6 @@ body.fd-background-color {
     margin: 5px 0 5px 0;
     padding: 5px;
     color: #c23d3d;
-    text-align: center;
-    background-color: #fff;
-    border-radius: 3px;
-    box-shadow: rgba(0, 0, 0, 0.32) 0 2px 2px;
 }
 
 .validation-summary-errors ul {
@@ -37,11 +33,11 @@ body.fd-background-color {
     margin: 5px 0 5px 0;
     padding: 5px;
     color: #c23d3d;
-    text-align: center;
     list-style-type: none;
-    background-color: #fff;
-    border-radius: 3px;
-    box-shadow: rgba(0, 0, 0, 0.32) 0 2px 2px;
+}
+
+.text-danger {
+    color: #fff;
 }
 
 .input-validation-error {
@@ -155,6 +151,21 @@ h2, h3, h4 {
     margin: 0 0 5px 0;
 }
 
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.control-label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+    color: #858585;
+}
+
 .block .control-label {
     color: #727272;
     text-align: left;
@@ -242,17 +253,18 @@ h2, h3, h4 {
     position:relative;
     overflow:hidden;
     margin: 0 auto;
-
 }
 
 .photosize {
     width: 320px;
     height: 320px;
 }
+
 .profile-pic-upload{
     position: absolute;
     top: -74px;
 }
+
 input.profile-pic-upload-select[type="file"]{
     width: 320px!important;
     height: 342px!important;
@@ -282,11 +294,15 @@ a.edit-link {
     background-color: #c23d3d;
 }
 
+#edit-form {
+    max-width: 400px;
+}
+
 /* Profile Page*/
 
 #profile-box {
-    background-color: #fff;
-    border: 1px solid #ccc;
+    width: 320px;
+    height: 320px;
     text-align: center;
 }
 
@@ -313,6 +329,7 @@ a.edit-link {
 #facedate_Dislike{
     background: url('/Content/img/dislike_button.png') no-repeat center center;
     background-size: 100% 100%;
+    border: none;
     height: 100px;
     width: 100px;
     display: inline-block;
@@ -323,6 +340,7 @@ a.edit-link {
 #facedate_Like{
     background:url('/Content/img/like_button.png') no-repeat center center;
     background-size: 100% 100%;
+    border: none;
     height:100px;
     width:100px;
     display: inline-block;
@@ -332,5 +350,5 @@ a.edit-link {
 
 .like_box {
     position: relative;
-    top: -60px;
+    top: 10px;
 }
