@@ -9,14 +9,6 @@ using Microsoft.Owin.Security;
 
 namespace Aphrodite.Front.Models
 {
-    public class IndexViewModel
-    {
-        public string Email { get; set; }
-        public string Photo { get; set; }
-        public string BirthDay { get; set; }
-        public ApplicationUser User { get; set; }
-    }
-
     public class ManageLoginsViewModel
     {
         public IList<UserLoginInfo> CurrentLogins { get; set; }
@@ -30,17 +22,18 @@ namespace Aphrodite.Front.Models
 
     public class EditViewModel
     {
-        [StringLength(255, ErrorMessage = "Je voornaam naam moet uit minimaal 2 tekens en max 255 tekens bestaan", MinimumLength = 2)]
+        [StringLength(255, ErrorMessage = "Je voornaam naam moet uit minimaal 2 tekens bestaan en mag maximaal 255 tekens bevatten", MinimumLength = 2)]
         [Display(Name = "Voornaam")]
         public string DisplayName { get; set; }
 
         [EmailAddress(ErrorMessage = "Dit is geen geldig e-mailadres")]
-        [Display(Name = "Email")]
+        [Display(Name = "E-mailadres")]
         [CustomValidation(typeof(ValidationCheck), "IsUniqueEmail")]
         public string Email { get; set; }
 
         public Gender Gender { get; set; }
 
+        [Display(Name = "Seksuele voorkeur")]
         public SexualPreference SexualPreference { get; set; }
 
         [Range(1, 31, ErrorMessage = "Dit is geen geldige dag")]
