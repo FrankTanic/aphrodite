@@ -15,7 +15,7 @@ namespace Aphrodite.Front.Models
 
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Vul je E-mailadres in")]
+        [Required(ErrorMessage = "Vul je e-mailadres in")]
         [Display(Name = "Email")]
         [EmailAddress(ErrorMessage = "Dit is geen geldig e-mailadres")]
         public string Email { get; set; }
@@ -34,7 +34,7 @@ namespace Aphrodite.Front.Models
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Vul je voornaam naam in")]
-        [StringLength(255, ErrorMessage = "Je voornaam naam moet uit minimaal 2 tekens en max 255 tekens bestaan", MinimumLength = 2)]
+        [StringLength(255, ErrorMessage = "Je voornaam naam moet uit minimaal 2 tekens bestaan en mag maximaal 255 tekens bevatten", MinimumLength = 2)]
         [Display(Name = "Voornaam")]
         public string DisplayName { get; set; }
 
@@ -82,7 +82,7 @@ namespace Aphrodite.Front.Models
 
         [Required(ErrorMessage = "Vul je wachtwoord in")]
         [StringLength(100, ErrorMessage = "Het {0} moet op zijn minst {2} tekens lang zijn.", MinimumLength = 6)]
-        [RegularExpression(@"^.*(?=.{6})(?=.*\d)(?=.*[a-zA-Z]).*$", ErrorMessage = "Het wachtwoord moet ministens uit een Hoofdletter, kleine letters en een cijfer bestaan")]
+        [RegularExpression(@"^.*(?=.{6})(?=.*\d)(?=.*[a-zA-Z]).*$", ErrorMessage = "Het wachtwoord moet minstens uit een hoofdletter, kleine letter en een cijfer bestaan")]
         [DataType(DataType.Password)]
         [Display(Name = "Wachtwoord")]
         public string Password { get; set; }
@@ -136,7 +136,7 @@ namespace Aphrodite.Front.Models
                     }
                     else
                     {
-                        return new ValidationResult("Het e-mailadres is al ingebruikt");
+                        return new ValidationResult("Het e-mailadres is al ingebruik");
                     }
                 }
             }
@@ -148,7 +148,7 @@ namespace Aphrodite.Front.Models
 
             if(age < 18)
             {
-                return new ValidationResult("Je moet minimaal 18 jaar en ouder zijn");
+                return new ValidationResult("Je moet minimaal 18 jaar of ouder zijn");
             }
             else
             {
