@@ -8,7 +8,6 @@ namespace Aphrodite.Front.Models
 {
     public class MatchViewModel
     {
-        public int ID { get; set; }
         public string SenderId { get; set; }
         public string ReceiverId { get; set; }
         public int Approve { get; set; }
@@ -16,9 +15,6 @@ namespace Aphrodite.Front.Models
     public class matches
     {
         public string Id { get; set; }
-
         public string Name { get; set; }
-
-        public int Matchamount { get; set; }
     }
 }
