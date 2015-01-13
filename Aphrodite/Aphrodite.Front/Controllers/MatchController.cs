@@ -22,8 +22,20 @@ namespace Aphrodite.Front.Controllers
         public ActionResult Index()
         {
             string userId = User.Identity.GetUserId();
-            var Model = db.Matches.Where(x => x.SenderId == userId);
-            return View(Model);
+            
+            List<matches> matches = (from mine in db.Matches
+                          from theirs in db.Matches
+                          from name in db.Users
+                          where mine.SenderId == userId && theirs.ReceiverId == userId && mine.ReceiverId == theirs.SenderId && mine.Approve == 1 && theirs.Approve == 1 && name.Id == theirs.SenderId 
+                          select new  matches { 
+                          Id = theirs.SenderId, 
+                          Name = name.DisplayName,
+                          Matchamount = theirs.SenderId.Count()
+                          })
+                          .ToList();
+            return View(matches);
         }
+
+
     }
 }

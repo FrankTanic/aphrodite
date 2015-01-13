@@ -12,6 +12,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Globalization;
+using System.Drawing;
 
 namespace Aphrodite.Front.Controllers
 {
@@ -47,19 +48,24 @@ namespace Aphrodite.Front.Controllers
         {
             ViewBag.StatusMessage = TempData["UploadMessage"] ?? GetErrorMessage(message);
 
-            string userId = User.Identity.GetUserId();
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            DateTimeOffset birthDay = Convert.ToDateTime(user.BirthDay);
-            var photo = db.Photos.Where(x => x.UserID == userId).FirstOrDefault();
+            string userID = User.Identity.GetUserId();
+            var user = db.Users.Find(userID);
+            var photo = db.Photos.Where(x => x.UserID == userID).FirstOrDefault();
+            DateTime birthday = user.BirthDay;
 
-            var model = new IndexViewModel()
+            var profile = new ProfileViewModel()
             {
                 User = user,
                 Email = UserManager.GetEmail(userId),
+                DisplayName = user.DisplayName,
+                Email = UserManager.GetEmail(userID),
+                Birthday = birthday,
+                Gender = user.Gender,
+                SexualPreference = user.SexualPreference,
                 Photo = (photo == null) ? "~/Content/img/no-image.png" : "~/Content/Upload/" + photo.File
             };
 
-            return View(model);
+            return View(profile);
         }
 
         //
@@ -110,7 +116,7 @@ namespace Aphrodite.Front.Controllers
         {
             if (file == null || file.ContentLength == 0)
             {
-                TempData["UploadMessage"] = "You must choose a picture.";
+                TempData["UploadMessage"] = "Kies een foto van jezelf";
                 return RedirectToAction("Index");
             }
 
@@ -119,9 +125,10 @@ namespace Aphrodite.Front.Controllers
 
             if (!acceptedExtensions.Contains(extension))
             {
-                TempData["UploadMessage"] = "This picture format is not accepted.";
+                TempData["UploadMessage"] = "Dit bestandsformaat word niet geaccepteerd";
                 return RedirectToAction("Index");
             }
+
 
             string fileId = Guid.NewGuid().ToString();
             string fileName = String.Format("{0}.{1}", fileId, extension);
@@ -136,11 +143,10 @@ namespace Aphrodite.Front.Controllers
             db.Photos.Add(photo);
             db.SaveChanges();
 
-            TempData["UploadMessage"] = "Upload succeeded.";
+            TempData["UploadMessage"] = "Upload succesvol";
      
             return RedirectToAction("Index");
         }
-
 
         //
         // GET: /Manage/RemoveLogin

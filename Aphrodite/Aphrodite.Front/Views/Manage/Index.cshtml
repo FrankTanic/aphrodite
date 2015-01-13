@@ -1,4 +1,4 @@
-﻿@model Aphrodite.Front.Models.IndexViewModel
+﻿@model Aphrodite.Front.Models.ProfileViewModel
 @{
     ViewBag.Title = "Profiel";
 }
@@ -19,38 +19,16 @@
                 <img src="@Url.Content(Model.Photo)" class="photosize" />  
              </a>
          </div>
-        </div>
+    </div>
+    <div class="col-sm-8 upload-photo">
+        @using (Html.BeginForm("Upload", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+        {
+            <label for="file">Upload een foto van je zelf</label>
+            <input id="file-upload" type="file" name="file" class="file" >
+            <input type="submit" value="Upload" />
+        }
+    </div>
 </div>
-
-    <div class="modal fade" id="facedatemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                </div>
-                <div class="modal-navigation">
-                    <div class="facedate-image-upload">
-                        <a ></a>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="profile-edit-info">
-                        @using (Html.BeginForm("Upload", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
-                        {
-                            <label for="file">Filename:</label>
-                            <input type="file" name="file" id="file" />
-                        }
-        </div>
-    </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
 <div class="row">
 <div class="block">
@@ -66,7 +44,7 @@
       <div class="form-group">
          <label class="col-sm-2 control-label">Voornaam</label>
           <div class="col-sm-10">
-             <p class="form-control-static">@Model.User.DisplayName</p>
+             <p class="form-control-static">@Model.DisplayName</p>
            </div>
         </div>
         <div class="form-group">
@@ -78,19 +56,19 @@
        <div class="form-group">
            <label class="col-sm-2 control-label">Geboortedatum</label>
            <div class="col-sm-10">
-               <p class="form-control-static">@Model.BirthDay</p>
+               <p class="form-control-static">@Model.Birthday.ToShortDateString()</p>
            </div>
        </div>
        <div class="form-group">
            <label class="col-sm-2 control-label">Geslacht</label>
            <div class="col-sm-10">
-               <p class="form-control-static">@Model.User.Gender</p>
+               <p class="form-control-static">@Model.Gender</p>
            </div>
        </div>
        <div class="form-group">
-           <label class="col-sm-2 control-label">Sexuele voorkeur</label>
+           <label class="col-sm-2 control-label">Seksuele voorkeur</label>
            <div class="col-sm-10">
-               <p class="form-control-static">@Model.User.SexualPreference</p>
+               <p class="form-control-static">@Model.SexualPreference</p>
            </div>
        </div>
     </div>

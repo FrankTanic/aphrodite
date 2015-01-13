@@ -10,7 +10,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>#</th>
+                <th>Id</th>
                 <th>Firstname</th>
             </tr>
         </thead>
@@ -18,22 +18,10 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.ID</td>
-                    <td>@item.ReceiverId</td>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
                 </tr>
             }
-            <tr>
-                <td>1</td>
-                <td>@ViewBag.Partner</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Debbie</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Sexy!</td>
-            </tr>
         </tbody>
     </table>
 </div>

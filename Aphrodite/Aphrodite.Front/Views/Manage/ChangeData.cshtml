@@ -2,74 +2,62 @@
 @{
     ViewBag.Title = "ChangeData";
 }
-<style>
-   label {
-       margin-right : 50px;
-   }
-</style>
-<h2>User Settings!</h2>
 
+<div class="container">
+    <h2>Profiel aanpassen</h2>
+    <div class="row">
+            <div id="edit-form">
+                @using (Html.BeginForm("ChangeData", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
 
-@using (Html.BeginForm("ChangeData", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    
-            @Html.ValidationMessageFor(m => m.BirthDay)
-            @Html.ValidationMessageFor(m => m.BirthDayDay)
-            @Html.ValidationMessageFor(m => m.BirthDayMonth)
-            @Html.ValidationMessageFor(m => m.BirthDayYear)
-    
-    <div class="form-horizontal">
-        <h4>ApplicationUser</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.DisplayName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.DisplayName, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Geboortedatum:</label>
-            <div class="input-group">
-                <div class="col-md-4 birthday-day">
-                    @Html.TextBoxFor(model => model.BirthDayDay, new { @class = "form-control", placeholder = Model.BirthDayDay, maxlength = "2", value = "", autocomplete = "off" })
-                </div>
-                <div class="col-md-4 birthday-month">
-                    @Html.TextBoxFor(model => model.BirthDayMonth, new { @class = "form-control", placeholder = Model.BirthDayMonth, maxlength = "2", value = "", autocomplete = "off" })
-                </div>
-                <div class="col-md-4 birthday-year">
-                    @Html.TextBoxFor(model => model.BirthDayYear, new { @class = "form-control", placeholder = Model.BirthDayYear, maxlength = "4", value = "", autocomplete = "off" })
-                </div>
-            </div>
-        </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.SexualPreference, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.SexualPreference, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SexualPreference, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="ChangeData" class="btn btn-default" />
-            </div>
-        </div>
-}
+                    @Html.ValidationMessageFor(m => m.BirthDay)
+                    @Html.ValidationMessageFor(m => m.BirthDayDay)
+                    @Html.ValidationMessageFor(m => m.BirthDayMonth)
+                    @Html.ValidationMessageFor(m => m.BirthDayYear)
 
-<div>
-    @Html.ActionLink("Terug naar je account", "Index")
+                    <hr />
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DisplayName, htmlAttributes: new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.DisplayName, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DisplayName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "control-label" })
+                        <div class="input-group">    
+                        <div class="col-md-4 birthday-day">
+                                @Html.TextBoxFor(model => model.BirthDayDay, new { @class = "form-control", placeholder = Model.BirthDayDay, maxlength = "2", value = "", autocomplete = "off" })
+                            </div>
+                            <div class="col-md-4 birthday-month">
+                                @Html.TextBoxFor(model => model.BirthDayMonth, new { @class = "form-control", placeholder = Model.BirthDayMonth, maxlength = "2", value = "", autocomplete = "off" })
+                            </div>
+                            <div class="col-md-4 birthday-year">
+                                @Html.TextBoxFor(model => model.BirthDayYear, new { @class = "form-control", placeholder = Model.BirthDayYear, maxlength = "4", value = "", autocomplete = "off" })
+                            </div>
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SexualPreference, htmlAttributes: new { @class = "control-label" })
+                            @Html.EnumDropDownListFor(model => model.SexualPreference, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SexualPreference, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                            <input type="submit" value="Aanpassen" class="reg-btn" />
+                    </div>
+                    <div class="form-group">
+                        @Html.ActionLink("Terug naar je account", "Index")
+                    </div>
+                }
+            </div>
+        </div>
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
