@@ -23,12 +23,18 @@ namespace Aphrodite.Front.Controllers
         {
             string userId = User.Identity.GetUserId();
             
-            var matches = from mine in db.Matches
+            List<matches> matches = (from mine in db.Matches
                           from theirs in db.Matches
-                          where mine.SenderId == userId && theirs.ReceiverId == userId && mine.ReceiverId == theirs.SenderId && mine.Approve == 1 && theirs.Approve == 1
-                          select mine.ReceiverId;
-
+                          from name in db.Users
+                          where mine.SenderId == userId && theirs.ReceiverId == userId && mine.ReceiverId == theirs.SenderId && mine.Approve == 1 && theirs.Approve == 1 && name.Id == theirs.SenderId 
+                          select new  matches { 
+                          Id = theirs.SenderId, 
+                          Name = name.DisplayName
+                          })
+                          .ToList();
             return View(matches);
         }
+
+
     }
 }
