@@ -36,7 +36,6 @@ namespace Aphrodite.Front.Models
 
         [EmailAddress(ErrorMessage = "Dit is geen geldig e-mailadres")]
         [Display(Name = "E-mailadres")]
-        [CustomValidation(typeof(ValidationCheck), "IsUniqueEmail")]
         public string Email { get; set; }
 
         public Gender Gender { get; set; }
