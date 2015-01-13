@@ -55,6 +55,8 @@ namespace Aphrodite.Front.Controllers
 
             var profile = new ProfileViewModel()
             {
+                User = user,
+                Email = UserManager.GetEmail(userId),
                 DisplayName = user.DisplayName,
                 Email = UserManager.GetEmail(userID),
                 Birthday = birthday,

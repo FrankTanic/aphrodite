@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+}
+ 
+@if (Model != null)
+{
+    @Scripts.Render("~/Scripts/Facedate.js")
+    <div id="profile-box">
+        <div class="profile-image">
+            <img id="facedate_Image" src="@Url.Content(@ViewBag.PhotoFile)" class="photosize img-responsive" />
+        </div>
+
+        @Model.DisplayName
+        <div class="col-md-12 like_box">
+
+            <p>
+                @Model.DisplayName
+                @Model.Years jaar oud
+            </p>
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    @Html.ActionLink(" ", "Dislike", "Home", new { id = Model.ID }, new { id = "facedate_Dislike", onclick = "rate($(this).attr('href'));" })
+                </div>
+                <div class="col-md-6">
+                    @Html.ActionLink(" ", "Like", "Home", new { id = Model.ID }, new { id = "facedate_Like", onclick = "rate($(this).attr('href'));" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        <label>Er zijn geen nieuwe profielen gevonden</label>
+    </div>
+}

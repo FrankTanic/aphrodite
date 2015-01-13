@@ -21,6 +21,18 @@ namespace Aphrodite.Front.Controllers
 
         public ActionResult Index()
         {
+            var userProfile = GetUserProfile();
+
+                if (userProfile == null)
+                {
+                    return View();
+                }
+            
+            return View(userProfile);
+        }
+
+        public ProfileViewModel GetUserProfile()
+        {
             // Get your preferences
             string userId = User.Identity.GetUserId();
             var user = db.Users.Where(x => x.Id == userId).Single();
@@ -31,9 +43,9 @@ namespace Aphrodite.Front.Controllers
 
             if (partner == null)
             {
-                return View();
+                return null;
             }
-           
+
             ProfileViewModel userProfile = new ProfileViewModel
             {
                 ID = partner.Id,
@@ -42,8 +54,8 @@ namespace Aphrodite.Front.Controllers
             };
 
             var photoQuery = (from p in db.Photos
-                                where p.UserID == partner.Id
-                                select p).SingleOrDefault();
+                              where p.UserID == partner.Id
+                              select p).SingleOrDefault();
 
             if (photoQuery == null)
             {
@@ -54,8 +66,9 @@ namespace Aphrodite.Front.Controllers
                 ViewBag.PhotoFile = "~/Content/Upload/" + photoQuery.File;
             }
 
-            return View(userProfile);
+            return userProfile;
         }
+
 
 
         public ActionResult Like(string id)
@@ -74,8 +87,8 @@ namespace Aphrodite.Front.Controllers
             db.Entry(match).State = EntityState.Added;
             db.SaveChanges();
 
-            return RedirectToAction("Index");
-      
+            //return RedirectToAction("Index");
+            return View("ProfilePartialAjax",GetUserProfile());
         }
 
         public ActionResult Dislike(string id)
@@ -95,8 +108,7 @@ namespace Aphrodite.Front.Controllers
             db.SaveChanges();
 
 
-            return RedirectToAction("Index");
-
+            return View("ProfilePartialAjax", GetUserProfile());
         }
 
         public int GetAge(DateTime birthday)
