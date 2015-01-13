@@ -29,7 +29,8 @@ namespace Aphrodite.Front.Controllers
                           where mine.SenderId == userId && theirs.ReceiverId == userId && mine.ReceiverId == theirs.SenderId && mine.Approve == 1 && theirs.Approve == 1 && name.Id == theirs.SenderId 
                           select new  matches { 
                           Id = theirs.SenderId, 
-                          Name = name.DisplayName
+                          Name = name.DisplayName,
+                          Matchamount = theirs.SenderId.Count()
                           })
                           .ToList();
             return View(matches);
