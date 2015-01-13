@@ -243,6 +243,7 @@
     <Content Include="Views\Manage\ChangeData.cshtml" />
     <Content Include="Views\Shared\_ProfilePartial.cshtml" />
     <Content Include="Views\Match\Index.cshtml" />
+    <Content Include="Views\Home\ProfilePartialAjax.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

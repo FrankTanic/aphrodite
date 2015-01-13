@@ -13,4 +13,9 @@ namespace Aphrodite.Front.Models
         public string ReceiverId { get; set; }
         public int Approve { get; set; }
     }
+    public class matches
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+    }
 }

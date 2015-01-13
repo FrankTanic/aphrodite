@@ -9,6 +9,14 @@ using Microsoft.Owin.Security;
 
 namespace Aphrodite.Front.Models
 {
+    public class IndexViewModel
+    {
+        public string Email { get; set; }
+        public string Photo { get; set; }
+        public DateTime BirthDay { get; set; }
+        public ApplicationUser User { get; set; }
+    }
+
     public class ManageLoginsViewModel
     {
         public IList<UserLoginInfo> CurrentLogins { get; set; }

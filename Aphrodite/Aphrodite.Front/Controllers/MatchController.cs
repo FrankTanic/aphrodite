@@ -19,16 +19,28 @@ namespace Aphrodite.Front.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Match
+
         public ActionResult Index()
         {
-            string userId = User.Identity.GetUserId();
-            
-            var matches = from mine in db.Matches
-                          from theirs in db.Matches
-                          where mine.SenderId == userId && theirs.ReceiverId == userId && mine.ReceiverId == theirs.SenderId && mine.Approve == 1 && theirs.Approve == 1
-                          select mine.ReceiverId;
-
+            var matches = GetMatches();
+            int count = matches.Count; 
             return View(matches);
         }
+
+        public List<matches> GetMatches()
+        {
+            string userId = User.Identity.GetUserId();
+            List<matches> matches = (from mine in db.Matches
+            from theirs in db.Matches
+            from name in db.Users
+            where mine.SenderId == userId && theirs.ReceiverId == userId && mine.ReceiverId == theirs.SenderId && mine.Approve == 1 && theirs.Approve == 1 && name.Id == theirs.SenderId
+            select new matches
+            {
+                Id = theirs.SenderId,
+                Name = name.DisplayName,
+            }).ToList();
+            return (matches);
+        }
+
     }
 }
