@@ -56,7 +56,6 @@ namespace Aphrodite.Front.Controllers
             {
                 User = user,
                 Email = UserManager.GetEmail(userId),
-                BirthDay = birthDay.ToString("D", CultureInfo.CreateSpecificCulture("en-US")),
                 Photo = (photo == null) ? "~/Content/img/no-image.png" : "~/Content/Upload/" + photo.File
             };
 

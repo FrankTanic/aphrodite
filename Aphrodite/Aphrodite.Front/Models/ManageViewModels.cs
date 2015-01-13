@@ -13,7 +13,7 @@ namespace Aphrodite.Front.Models
     {
         public string Email { get; set; }
         public string Photo { get; set; }
-        public string BirthDay { get; set; }
+        public DateTime BirthDay { get; set; }
         public ApplicationUser User { get; set; }
     }
 
