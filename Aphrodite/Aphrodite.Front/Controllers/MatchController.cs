@@ -23,10 +23,9 @@ namespace Aphrodite.Front.Controllers
         public ActionResult Index()
         {
             var matches = GetMatches();
-            int count = matches.Count; 
+            int count = matches.Count;
             return View(matches);
         }
-
         public List<matches> GetMatches()
         {
             string userId = User.Identity.GetUserId();
@@ -38,6 +37,7 @@ namespace Aphrodite.Front.Controllers
             {
                 Id = theirs.SenderId,
                 Name = name.DisplayName,
+                count = mine.ReceiverId.Count(),
             }).ToList();
             return (matches);
         }
