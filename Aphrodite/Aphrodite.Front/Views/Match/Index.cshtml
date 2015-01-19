@@ -18,10 +18,25 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Name</td>
+                    <td class="match">@item.Id</td>
+                    <td class="match">@item.Name</td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+<script>
+var originalColors = [];
+
+$(function () {
+    $('.match').hover(function () {
+        originalColors[$(this).index('.match')] = $(this).css('background-color');
+        $(this).css("background-color", "#d34242"),
+        $(this).css("color", "white");
+    },
+    function () {
+        $(this).css('background-color', originalColors[$(this).index('.match')]),
+        $(this).css("color", "black");
+    });
+});
+</script>
