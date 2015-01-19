@@ -37,7 +37,7 @@ namespace Aphrodite.Front.Controllers
             {
                 Id = theirs.SenderId,
                 Name = name.DisplayName,
-                count = mine.ReceiverId.Count(),
+               // count = mine.ReceiverId.Count(),
             }).ToList();
             return (matches);
         }
