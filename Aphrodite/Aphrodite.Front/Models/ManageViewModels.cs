@@ -30,10 +30,12 @@ namespace Aphrodite.Front.Models
 
     public class EditViewModel
     {
+        [Required(ErrorMessage = "Vul je voornaam in")]
         [StringLength(255, ErrorMessage = "Je voornaam naam moet uit minimaal 2 tekens bestaan en mag maximaal 255 tekens bevatten", MinimumLength = 2)]
         [Display(Name = "Voornaam")]
         public string DisplayName { get; set; }
 
+        [Required(ErrorMessage = "Vul je e-mailadres in")]
         [EmailAddress(ErrorMessage = "Dit is geen geldig e-mailadres")]
         [Display(Name = "E-mailadres")]
         public string Email { get; set; }
@@ -43,12 +45,15 @@ namespace Aphrodite.Front.Models
         [Display(Name = "Seksuele voorkeur")]
         public SexualPreference SexualPreference { get; set; }
 
+        [Required(ErrorMessage = "Geef een geboorte dag op")]
         [Range(1, 31, ErrorMessage = "Dit is geen geldige dag")]
         public int BirthDayDay { get; set; }
 
+        [Required(ErrorMessage = "Geef een geboorte maand op")]
         [Range(1, 12, ErrorMessage = "Dit is geen geldige maand")]
         public int BirthDayMonth { get; set; }
 
+        [Required(ErrorMessage = "Geef een geboorte jaar op")]
         [Range(1901, 2014, ErrorMessage = "Dit is geen geldig jaar")]
         public int BirthDayYear { get; set; }
 
