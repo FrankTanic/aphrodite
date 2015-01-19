@@ -101,12 +101,7 @@ namespace Aphrodite.Front.Controllers
 
             if (ModelState.IsValid)
             {
-                if(user.Email == model.Email)
-                {
-                    user.Email = user.Email;
-                    user.UserName = user.UserName;
-                }
-                else
+                if(user.Email != model.Email)
                 {
                     var email = db.Users.Where(x => x.Email == model.Email).FirstOrDefault();
 
@@ -118,7 +113,6 @@ namespace Aphrodite.Front.Controllers
                     else
                     {
                         user.Email = model.Email;
-                        user.UserName = user.UserName;
                     }
                 }
 
