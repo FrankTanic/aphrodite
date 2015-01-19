@@ -108,7 +108,7 @@ namespace Aphrodite.Front.Controllers
                 }
                 else
                 {
-                    var email = db.Users.Where(x => x.Email == model.Email);
+                    var email = db.Users.Where(x => x.Email == model.Email).FirstOrDefault();
 
                     if(email != null)
                     {
