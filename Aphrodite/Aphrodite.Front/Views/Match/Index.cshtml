@@ -4,13 +4,18 @@
 }
 
 <h2>Matches</h2>
-
+<div class="messagepop pop">
+   <p>This is your date for tonight! : </p>
+   <p><script language="javascript">
+       var Match = document.getElementsByClassName("selected").innerHTML;
+       document.write(Match); </script></p>
+    <a class="close" href="/">Cancel</a>
+</div>
 
 <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Firstname</th>
             </tr>
         </thead>
@@ -18,25 +23,51 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td class="match">@item.Id</td>
-                    <td class="match">@item.Name</td>
+                    <td class="match"><a href="/contact">@item.Name</a></td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
 <script>
-var originalColors = [];
+    var originalColors = [];
 
-$(function () {
-    $('.match').hover(function () {
-        originalColors[$(this).index('.match')] = $(this).css('background-color');
-        $(this).css("background-color", "#d34242"),
-        $(this).css("color", "white");
-    },
-    function () {
-        $(this).css('background-color', originalColors[$(this).index('.match')]),
-        $(this).css("color", "black");
-    });
-});
+       $(function () {
+           $('.match').hover(function () {
+               originalColors[$(this).index('.match')] = $(this).css('background-color');
+               $(this).css("background-color", "#d34242"),
+               $(this).css("color", "white");
+           },
+           function () {
+               $(this).css('background-color', originalColors[$(this).index('.match')]),
+               $(this).css("color", "black");
+           });
+       });
+
+       function deselect(e) {
+           $('.pop').slideFadeToggle(function() {
+               e.removeClass('selected');
+           });
+       }
+
+       $(function() {
+           $('.match').on('click', function() {
+               if($(this).hasClass('selected')) {
+                   deselect($(this));
+               } else {
+                   $(this).addClass('selected');
+                   $('.pop').slideFadeToggle();
+               }
+               return false;
+           });
+
+           $('.close').on('click', function() {
+               deselect($('.match'));
+               return false;
+           });
+       });
+
+       $.fn.slideFadeToggle = function(easing, callback) {
+           return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+       };
 </script>
