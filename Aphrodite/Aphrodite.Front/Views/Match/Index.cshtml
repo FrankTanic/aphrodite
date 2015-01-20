@@ -4,13 +4,6 @@
 }
 
 <h2>Matches</h2>
-<div class="messagepop pop">
-   <p>This is your date for tonight! : </p>
-   <p><script language="javascript">
-       var Match = document.getElementsByClassName("selected").innerHTML;
-       document.write(Match); </script></p>
-    <a class="close" href="/">Cancel</a>
-</div>
 
 <div class="table-responsive">
     <table class="table">
@@ -23,11 +16,17 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td class="match"><a href="/contact">@item.Name</a></td>
+                    <td><a class="match" href="/contact">@item.Name</a></td>
                 </tr>
             }
         </tbody>
     </table>
+</div>
+<div class="messagepop pop">
+    <p>This is your date for tonight! : </p>
+    <p class="RecieverName">
+    </p>
+    <a class="close" href="/">Cancel</a>
 </div>
 <script>
     var originalColors = [];
@@ -47,6 +46,7 @@
        function deselect(e) {
            $('.pop').slideFadeToggle(function() {
                e.removeClass('selected');
+               $('.RecieverName').html($(".selected").empty());
            });
        }
 
@@ -55,8 +55,10 @@
                if($(this).hasClass('selected')) {
                    deselect($(this));
                } else {
+
                    $(this).addClass('selected');
                    $('.pop').slideFadeToggle();
+                   $('.RecieverName').html($(".selected").html());
                }
                return false;
            });
