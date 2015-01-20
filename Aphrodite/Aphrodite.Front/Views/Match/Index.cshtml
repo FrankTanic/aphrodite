@@ -31,18 +31,6 @@
 <script>
     var originalColors = [];
 
-       $(function () {
-           $('.match').hover(function () {
-               originalColors[$(this).index('.match')] = $(this).css('background-color');
-               $(this).css("background-color", "#d34242"),
-               $(this).css("color", "white");
-           },
-           function () {
-               $(this).css('background-color', originalColors[$(this).index('.match')]),
-               $(this).css("color", "black");
-           });
-       });
-
        function deselect(e) {
            $('.pop').slideFadeToggle(function() {
                e.removeClass('selected');
