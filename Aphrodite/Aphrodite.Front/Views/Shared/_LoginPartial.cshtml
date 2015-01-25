@@ -7,7 +7,10 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @Html.ActionLink("Matches", "Index", "Match", routeValues: null, htmlAttributes: new { title = "Manage" })
+            <a href="@Url.Action("Index", "Match")">
+                <span id="count-notification"></span>
+                    <img src="@Url.Content("~/Content/img/email.png")"/>
+            </a>
         </li>
         <li>
             @Html.ActionLink("Instellingen", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })

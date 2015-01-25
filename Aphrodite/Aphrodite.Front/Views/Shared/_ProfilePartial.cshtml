@@ -5,7 +5,7 @@
 
         @if (Model != null)
         {
-            <div id="profile-box">
+            <div id="profile-box" class="center-block">
                 <div class="profile-image">
                     <img id="facedate_Image" src="@Url.Content(@ViewBag.PhotoFile)" class="photosize img-responsive" />
                 </div>
@@ -29,8 +29,8 @@
         }
         else
         {
-            <div>
-                <label>Er zijn geen nieuwe profielen gevonden</label>
+            <div class="no-more-matches center-block">
+                <label>Er zijn geen nieuwe profielen gevonden, probeer het later nog eens.</label>
             </div>
         }
     </div>
