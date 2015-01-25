@@ -91,20 +91,21 @@ namespace Aphrodite.Front.Models
 
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Vul je huidige wachtwoord in")]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Huidig wachtwoord")]
         public string OldPassword { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Vul je nieuwe wachtwoord in")]
+        [StringLength(100, ErrorMessage = "Het {0} moet op zijn minst {2} tekens lang zijn.", MinimumLength = 6)]
+        [RegularExpression(@"^.*(?=.{6})(?=.*[A-Z])(?=.*\d)(?=.*[a-zA-Z]).*$", ErrorMessage = "Het wachtwoord moet minstens uit een hoofdletter, kleine letter, een cijfer en die bestaan uit minimaal 6 tekens")]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Nieuw wachtwoord")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "Herhaal wachtwoord")]
+        [Compare("NewPassword", ErrorMessage = "De wachtwoorden komen niet overheen")]
         public string ConfirmPassword { get; set; }
     }
 }

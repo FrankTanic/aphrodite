@@ -24,7 +24,7 @@
                     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.ValidationMessage("InvalidLogin", new { @class = "text-danger" })
+                        @Html.ValidationMessage("InvalidLogin", new { @class = "text-danger-light" })
                         <div class="form-group">
                             @Html.TextBoxFor(m => m.Email, new { @class = "txt-input", placeholder = "E-mailadres", autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger-light" })

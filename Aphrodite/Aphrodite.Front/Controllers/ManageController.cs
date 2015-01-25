@@ -344,7 +344,7 @@ namespace Aphrodite.Front.Controllers
                     return "Met succes een telefoon toegevoegd. Hoera.";
 
                 case ManageMessageId.ChangePasswordSuccess:
-                    return "Joepie voor het wijzigen van het wachtwoord.";
+                    return "Je wachtwoord is gewijzigd.";
 
                 case ManageMessageId.Error:
                     return "Foutje, hoor.";
