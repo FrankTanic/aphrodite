@@ -5,23 +5,27 @@
 
 <h2>Matches</h2>
 
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Firstname</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td><a class="match" href="/contact">@item.Name</a></td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+@if(Model != null)
+{ 
+    foreach (var item in Model)
+    {
+        <div class="match-block col-md-12">
+            <div class="col-md-1">
+                <img class="profile-image-small-round" src="@Url.Content("~/Content/img/no-image.png")" />
+            </div>
+            <div class="col-md-9">
+                <a class="match" href="/contact">@item.DisplayName</a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="col-md-8 no-more-matches center-block">
+        <label>Er zijn nog geen matches</label>
+    </div>
+}
+
 <div class="messagepop pop">
     <p>This is your date for tonight! : </p>
     <p class="RecieverName">
