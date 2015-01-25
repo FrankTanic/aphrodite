@@ -5,12 +5,10 @@
 
 <h2>Matches</h2>
 
-
 <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Firstname</th>
             </tr>
         </thead>
@@ -18,10 +16,48 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Name</td>
+                    <td><a class="match" href="/contact">@item.Name</a></td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+<div class="messagepop pop">
+    <p>This is your date for tonight! : </p>
+    <p class="RecieverName">
+    </p>
+    <a class="close" href="/">Cancel</a>
+</div>
+<script>
+    var originalColors = [];
+
+       function deselect(e) {
+           $('.pop').slideFadeToggle(function() {
+               e.removeClass('selected');
+               $('.RecieverName').html($(".selected").empty());
+           });
+       }
+
+       $(function() {
+           $('.match').on('click', function() {
+               if($(this).hasClass('selected')) {
+                   deselect($(this));
+               } else {
+
+                   $(this).addClass('selected');
+                   $('.pop').slideFadeToggle();
+                   $('.RecieverName').html($(".selected").html());
+               }
+               return false;
+           });
+
+           $('.close').on('click', function() {
+               deselect($('.match'));
+               return false;
+           });
+       });
+
+       $.fn.slideFadeToggle = function(easing, callback) {
+           return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+       };
+</script>

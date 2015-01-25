@@ -30,7 +30,6 @@ namespace Aphrodite.Front.Hubs
             var userID = Context.User.Identity.GetUserId();
 
             Groups.Add(Context.ConnectionId, userID);
-            GetMatchCount();
 
             return base.OnConnected();
         }

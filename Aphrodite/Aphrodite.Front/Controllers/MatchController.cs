@@ -37,7 +37,7 @@ namespace Aphrodite.Front.Controllers
             {
                 Id = theirs.SenderId,
                 Name = name.DisplayName,
-                count = mine.ReceiverId.Count(),
+                photo = db.Photos.Where(x => x.UserID == userId).FirstOrDefault()
             }).ToList();
             return (matches);
         }
