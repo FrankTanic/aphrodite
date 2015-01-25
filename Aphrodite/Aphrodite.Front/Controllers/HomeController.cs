@@ -11,10 +11,12 @@ using Microsoft.AspNet.Identity;
 using System.Data.Entity.Core;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
+using Aphrodite.Front.Hubs;
+using Microsoft.AspNet.SignalR;
 
 namespace Aphrodite.Front.Controllers
 {
-    [Authorize]
+    [System.Web.Mvc.AuthorizeAttribute]
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -69,12 +71,9 @@ namespace Aphrodite.Front.Controllers
             return userProfile;
         }
 
-
-
-        public ActionResult Like(string id)
+        public async Task<ActionResult> Like(string id)
         {
-            var userId = User.Identity.GetUserId();
-
+            string userId = User.Identity.GetUserId();
             int like = 1;
 
             MatchViewModel match = new MatchViewModel
@@ -85,16 +84,17 @@ namespace Aphrodite.Front.Controllers
             };
 
             db.Entry(match).State = EntityState.Added;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
+
+            UpdateCount(id);
 
             //return RedirectToAction("Index");
             return View("ProfilePartialAjax",GetUserProfile());
         }
 
-        public ActionResult Dislike(string id)
+        public async Task<ActionResult> Dislike(string id)
         {
-            var userId = User.Identity.GetUserId();
-
+            string userId = User.Identity.GetUserId();
             int like = 0;
 
             MatchViewModel match = new MatchViewModel
@@ -105,8 +105,9 @@ namespace Aphrodite.Front.Controllers
             };
 
             db.Entry(match).State = EntityState.Added;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
+            UpdateCount(id);
 
             return View("ProfilePartialAjax", GetUserProfile());
         }
@@ -138,5 +139,50 @@ namespace Aphrodite.Front.Controllers
                     where !um.Any(x => x.SenderId == userId)
                     select u).OrderBy(x => Guid.NewGuid()).FirstOrDefault();
         }
+
+        public void UpdateCount(string id)
+        {
+            string userId = User.Identity.GetUserId();
+            int count = GetMatchCount();
+            int countOpposite = GetMatchCountOpposite(id);
+
+            IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<MatchesHub>();
+
+            hubContext.Clients.Group(userId).addCount(count);
+            hubContext.Clients.Group(id).addCount(countOpposite);
+        }
+
+        public int GetMatchCount()
+        {
+            string userId =  User.Identity.GetUserId();
+
+            int matchCount = (from mine in db.Matches
+                              from theirs in db.Matches
+                              from name in db.Users
+                              where mine.SenderId == userId && theirs.ReceiverId == userId && mine.ReceiverId == theirs.SenderId && mine.Approve == 1 && theirs.Approve == 1 && name.Id == theirs.SenderId
+                              select new matches
+                              {
+                                  Id = theirs.SenderId,
+                              }).Count();
+
+            return (matchCount);
+        }
+
+        public int GetMatchCountOpposite(string id)
+        {
+            string userId = id;
+
+            int matchCount = (from mine in db.Matches
+                              from theirs in db.Matches
+                              from name in db.Users
+                              where mine.SenderId == userId && theirs.ReceiverId == userId && mine.ReceiverId == theirs.SenderId && mine.Approve == 1 && theirs.Approve == 1 && name.Id == theirs.SenderId
+                              select new matches
+                              {
+                                  Id = theirs.SenderId,
+                              }).Count();
+
+            return (matchCount);
+        }
+
     }
 }
