@@ -20,16 +20,28 @@ namespace Aphrodite.Front.Hubs
         public void SendCountMatches()
         {
             int count = GetMatchCount();
-            string userID = Context.User.Identity.GetUserId();
+            string userId = Context.User.Identity.GetUserId();
 
-            Clients.Group(userID).addCount(count);
+            if (count == 1)
+            {
+                Clients.Group(userId).addNotification("Je hebt een nieuwe match!");
+            }
+            else
+            {
+                if(count > 1)
+                {
+                    Clients.Group(userId).addNotification("Je hebt nieuwe matches!");
+                }
+            }
+
+            Clients.Group(userId).addCount(count);
         }
 
         public override Task OnConnected()
         {
-            var userID = Context.User.Identity.GetUserId();
+            var userId = Context.User.Identity.GetUserId();
 
-            Groups.Add(Context.ConnectionId, userID);
+            Groups.Add(Context.ConnectionId, userId);
 
             return base.OnConnected();
         }

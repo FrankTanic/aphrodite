@@ -5,7 +5,19 @@
     
 
     matches.client.addCount = function (count) {
-        $count.text(count);
+
+        if (count == 0)
+        {
+            $count.text("");
+        }
+        else
+        {
+            $count.text(count);
+        }
+    }
+
+    matches.client.addNotification = function (notification) {
+        $('.notification').text(notification);
     }
 
     $.connection.hub.start().done(function () {

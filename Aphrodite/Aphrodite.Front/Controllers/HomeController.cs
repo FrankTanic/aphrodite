@@ -150,6 +150,30 @@ namespace Aphrodite.Front.Controllers
 
             hubContext.Clients.Group(userId).addCount(count);
             hubContext.Clients.Group(id).addCount(countOpposite);
+
+            if (count == 1)
+            {
+                hubContext.Clients.Group(userId).addNotification("Je hebt een nieuwe match!");
+            }
+            else
+            {
+                if (count > 1)
+                {
+                    hubContext.Clients.Group(userId).addNotification("Je hebt nieuwe matches!");
+                }
+            }
+
+            if (countOpposite == 1)
+            {
+                hubContext.Clients.Group(id).addNotification("Je hebt een nieuwe match!");
+            }
+            else
+            {
+                if (countOpposite > 1)
+                {
+                    hubContext.Clients.Group(id).addNotification("Je hebt nieuwe matches!");
+                }
+            }
         }
 
         public int GetMatchCount()
