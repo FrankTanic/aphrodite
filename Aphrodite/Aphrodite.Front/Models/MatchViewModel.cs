@@ -12,6 +12,7 @@ namespace Aphrodite.Front.Models
         public string SenderId { get; set; }
         public string ReceiverId { get; set; }
         public int Approve { get; set; }
+        public UserPhoto photo { get; set; }
     }
     public class matches
     {
