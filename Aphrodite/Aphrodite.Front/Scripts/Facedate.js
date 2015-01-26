@@ -23,14 +23,6 @@ $(function () {
   //  $('#facedate_Like').click(function () { rate() });
 });
 
-//function raete() {
-//    event.preventdefault;
-//    var rating = $(this).attr('id');
-//    var location = $(this).attr('href');
-//    alert(rating);
-//    alert(location);
-
-//}
 
 function rate(location) {
     console.log(location);

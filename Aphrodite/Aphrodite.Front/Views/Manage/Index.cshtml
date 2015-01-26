@@ -16,8 +16,11 @@
         <div class="profile-image">
 
             <a href="#" data-toggle="modal" data-target="#facedatemodal">
-                <img src="@Url.Content(Model.Photo)" class="photosize" />  
-             </a>
+                <span id="message"></span>
+                <div id="facedate-img">
+                    <img src="@Url.Content(Model.Photo)" class="photosize" />
+                </div>
+</a>
          </div>
     </div>
     <div class="col-sm-8 upload-photo">
@@ -26,6 +29,7 @@
             <label for="file">Upload een foto van je zelf</label>
             <input id="file-upload" type="file" name="file" class="file" >
             <input type="submit" value="Upload" />
+            
         }
     </div>
 </div>
@@ -77,4 +81,6 @@
 <div class="row">
         @Html.ActionLink("Verander wachtwoord", "ChangePassword")
 </div>
+<script src="/Scripts/resample.js"></script>
+
 
