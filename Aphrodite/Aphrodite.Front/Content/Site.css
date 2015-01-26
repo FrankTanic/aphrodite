@@ -280,9 +280,20 @@ span#count-notification {
     margin: 0 auto;
 }
 
+#facedate-img{
+    position:relative;
+}
+#profile-image{
+    position:absolute;
+    top:0;
+    left:0;
+}
+
 .photosize {
-    width: 320px;
-    height: 320px;
+    min-height: 300px;
+    min-width:300px;
+    max-height:550px;
+    max-width: 550px;
 }
 
 .profile-pic-upload{
