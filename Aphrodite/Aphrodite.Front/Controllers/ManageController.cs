@@ -82,6 +82,7 @@ namespace Aphrodite.Front.Controllers
                 BirthDayDay = day,
                 BirthDayMonth = month,
                 BirthDayYear = year,
+                SexualPreference = user.SexualPreference,
                 DisplayName = user.DisplayName,
                 Email = user.Email
             };
@@ -97,16 +98,34 @@ namespace Aphrodite.Front.Controllers
             string UID = User.Identity.GetUserId();
             var user = db.Users.Where(x => x.Id == UID).Single();
             DateTime Birthday = new DateTime(model.BirthDayYear, model.BirthDayMonth, model.BirthDayDay);
-            user.BirthDay = Birthday;
-            user.SexualPreference = model.SexualPreference;
-            user.Gender = model.Gender;
-            user.DisplayName = model.DisplayName;
-            user.Email = model.Email;
-            user.UserName = user.Email;
-            db.Entry(user).State = EntityState.Modified;
-            db.SaveChanges();
 
-            return View(model);
+            if (ModelState.IsValid)
+            {
+                if(user.Email != model.Email)
+                {
+                    var email = db.Users.Where(x => x.Email == model.Email).FirstOrDefault();
+
+                    if(email != null)
+                    {
+                        ModelState.AddModelError("Email", "Dit e-mailadres is al ingebruik");
+                        return View(model);
+                    }
+                    else
+                    {
+                        user.Email = model.Email;
+                    }
+                }
+
+                user.BirthDay = Birthday;
+                user.SexualPreference = model.SexualPreference;
+                user.Gender = model.Gender;
+                user.DisplayName = model.DisplayName;
+
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index", "Manage", new { Message = ManageMessageId.ChangeProfileData });
         }
 
         [HttpPost]
@@ -318,11 +337,14 @@ namespace Aphrodite.Front.Controllers
 
             switch (message)
             {
+                case ManageMessageId.ChangeProfileData:
+                    return "Je gegevens zijn aangepast";
+
                 case ManageMessageId.AddPhoneSuccess:
                     return "Met succes een telefoon toegevoegd. Hoera.";
 
                 case ManageMessageId.ChangePasswordSuccess:
-                    return "Joepie voor het wijzigen van het wachtwoord.";
+                    return "Je wachtwoord is gewijzigd.";
 
                 case ManageMessageId.Error:
                     return "Foutje, hoor.";
@@ -346,6 +368,7 @@ namespace Aphrodite.Front.Controllers
 
         public enum ManageMessageId
         {
+            ChangeProfileData,
             AddPhoneSuccess,
             ChangePasswordSuccess,
             SetTwoFactorSuccess,

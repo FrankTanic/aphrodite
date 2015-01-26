@@ -5,23 +5,63 @@
 
 <h2>Matches</h2>
 
+@if(Model != null)
+{ 
+    foreach (var item in Model)
+    {
+        <div class="match-block col-md-12">
+            <div class="col-md-1">
+                <img class="profile-image-small-round" src="@Url.Content("~/Content/img/no-image.png")" />
+            </div>
+            <div class="col-md-9">
+                <a class="match" href="/contact">@item.DisplayName</a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="col-md-8 no-more-matches center-block">
+        <label>Er zijn nog geen matches</label>
+    </div>
+}
 
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Firstname</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Name</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="messagepop pop">
+    <p>This is your date for tonight! : </p>
+    <p class="RecieverName">
+    </p>
+    <a class="close" href="/">Cancel</a>
 </div>
+<script>
+    var originalColors = [];
+
+       function deselect(e) {
+           $('.pop').slideFadeToggle(function() {
+               e.removeClass('selected');
+               $('.RecieverName').html($(".selected").empty());
+           });
+       }
+
+       $(function() {
+           $('.match').on('click', function() {
+               if($(this).hasClass('selected')) {
+                   deselect($(this));
+               } else {
+
+                   $(this).addClass('selected');
+                   $('.pop').slideFadeToggle();
+                   $('.RecieverName').html($(".selected").html());
+               }
+               return false;
+           });
+
+           $('.close').on('click', function() {
+               deselect($('.match'));
+               return false;
+           });
+       });
+
+       $.fn.slideFadeToggle = function(easing, callback) {
+           return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+       };
+</script>

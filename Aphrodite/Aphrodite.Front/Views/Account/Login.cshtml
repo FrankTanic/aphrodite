@@ -24,14 +24,14 @@
                     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.ValidationMessage("InvalidLogin", new { @class = "text-danger" })
+                        @Html.ValidationMessage("InvalidLogin", new { @class = "text-danger-light" })
                         <div class="form-group">
                             @Html.TextBoxFor(m => m.Email, new { @class = "txt-input", placeholder = "E-mailadres", autocomplete = "off" })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger-light" })
                         </div>
                         <div class="form-group">
                             @Html.PasswordFor(m => m.Password, new { @class = "txt-input", placeholder = "Wachtwoord" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger-light" })
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Inloggen" class="login-btn" />

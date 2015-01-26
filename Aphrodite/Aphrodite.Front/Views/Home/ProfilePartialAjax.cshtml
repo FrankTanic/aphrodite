@@ -5,12 +5,10 @@
 @if (Model != null)
 {
     @Scripts.Render("~/Scripts/Facedate.js")
-    <div id="profile-box">
+    <div id="profile-box" class="center-block">
         <div class="profile-image">
             <img id="facedate_Image" src="@Url.Content(@ViewBag.PhotoFile)" class="photosize img-responsive" />
         </div>
-
-        @Model.DisplayName
         <div class="col-md-12 like_box">
 
             <p>
@@ -30,7 +28,7 @@
 }
 else
 {
-    <div>
-        <label>Er zijn geen nieuwe profielen gevonden</label>
+    <div class="col-md-8 no-more-matches center-block">
+        <label>Er zijn geen nieuwe profielen gevonden, probeer het later nog eens.</label>
     </div>
 }

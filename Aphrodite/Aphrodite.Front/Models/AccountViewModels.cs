@@ -3,9 +3,16 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
+using System.Data.Entity;
+using System.Data.Entity.Core;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 
 namespace Aphrodite.Front.Models
 {
+    
+
     public class ForgotViewModel
     {
         [Required]
@@ -82,7 +89,7 @@ namespace Aphrodite.Front.Models
 
         [Required(ErrorMessage = "Vul je wachtwoord in")]
         [StringLength(100, ErrorMessage = "Het {0} moet op zijn minst {2} tekens lang zijn.", MinimumLength = 6)]
-        [RegularExpression(@"^.*(?=.{6})(?=.*\d)(?=.*[a-zA-Z]).*$", ErrorMessage = "Het wachtwoord moet minstens uit een hoofdletter, kleine letter en een cijfer bestaan")]
+        [RegularExpression(@"^.*(?=.{6})(?=.*[A-Z])(?=.*\d)(?=.*[a-zA-Z]).*$", ErrorMessage = "Het wachtwoord moet minstens uit een hoofdletter, kleine letter, een cijfer en die bestaan uit minimaal 6 tekens")]
         [DataType(DataType.Password)]
         [Display(Name = "Wachtwoord")]
         public string Password { get; set; }
@@ -115,6 +122,7 @@ namespace Aphrodite.Front.Models
     {
         public static ValidationResult IsUniqueEmail(string mail)
         {
+
             if (mail == null)
             {
                 return null;

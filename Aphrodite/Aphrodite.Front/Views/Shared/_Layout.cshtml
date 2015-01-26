@@ -8,6 +8,10 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/jquery.signalR-2.2.0.min.js")
+    @Scripts.Render("~/signalr/hubs")
+    @Scripts.Render("~/Scripts/MatchesHub.js")
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -29,6 +33,9 @@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
+        </div>
+        <div class="notification-container">
+            <span class="notification"></span>
         </div>
     </div>
     <div class="container body-content">
