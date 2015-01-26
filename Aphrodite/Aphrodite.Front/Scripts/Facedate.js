@@ -8,7 +8,7 @@ $(function () {
 
     $('a#facedate_Dislike').click(function (e) { e.preventDefault(); });
     $('a#facedate_Like').click(function (e) { e.preventDefault(); });
-    position_picture()
+    position_picture();
   //// $("#facedate_Image").on("swipeleft", swipeleftHandler);
   //  function swipeleftHandler(event) {
   //      rate("dislike");
@@ -31,16 +31,16 @@ function rate(location) {
             response = xmlhttp.responseText;
             $("#profile-box-wrapper").hide(500);
             $("#profile-box").replaceWith(response);
+            position_picture();
             $("#profile-box-wrapper").show(500);
         }
         else {
-           console.log("ERROR!!:" + response); 
+           console.log(response); 
         }
     }
     xmlhttp.open("GET", location, true);
     xmlhttp.send();
 
-    console.log(location);
 }
 
 function position_picture(){
@@ -62,7 +62,4 @@ function position_picture(){
 
     $("#profile-image").css('left', left);
     $("#profile-image").css('top', top);
-    console.log(left);
-    console.log(top);
-
 }
