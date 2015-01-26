@@ -113,6 +113,7 @@ namespace Aphrodite.Front.Controllers
                     else
                     {
                         user.Email = model.Email;
+                        user.UserName = model.Email;
                     }
                 }
 
