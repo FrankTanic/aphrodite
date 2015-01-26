@@ -37,6 +37,7 @@ namespace Aphrodite.Front.Controllers
             {
                 ID = theirs.SenderId,
                 DisplayName = name.DisplayName,
+                Photo = theirs.photo.File            
             }).ToList();
             return (matches);
         }
